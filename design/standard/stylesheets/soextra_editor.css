@@ -1,0 +1,117 @@
+body {
+	font:13px/1.231 arial,helvetica,clean,sans-serif;
+	*font-size:small; /* for IE */
+	*font:x-small; /* for IE in quirks mode */
+}
+
+span.mceNonEditable[align="left"]{float:left; margin-right:6px;}
+span.mceNonEditable[align="right"]{float:right;}
+div.mceNonEditable[align="center"]{margin-left:auto; margin-right:auto;}
+div.mceNonEditable[align="right"]{margin-left:auto; margin-right:0;}
+
+span.mceNonEditable, div.mceNonEditable {padding-left:0; display:block;}
+
+div.mceItemCustomTag.block[customattributes*="last|true"] {overflow: hidden;_overflow:visible;_zoom:1; }
+div.mceItemCustomTag.block{float:left;_zoom:1;}
+div.mceItemCustomTag.block[customattributes*="size|1of1"]{float:none;}
+div.mceItemCustomTag.block[customattributes*="size|1of2"]{width:50%;}
+div.mceItemCustomTag.block[customattributes*="size|1of3"]{width:33.33333%;}
+div.mceItemCustomTag.block[customattributes*="size|2of3"]{width:66.66666%;}
+div.mceItemCustomTag.block[customattributes*="size|1of4"]{width:25%;}
+div.mceItemCustomTag.block[customattributes*="size|3of4"]{width:75%;}
+div.mceItemCustomTag.block[customattributes*="size|1of5"]{width:20%;}
+div.mceItemCustomTag.block[customattributes*="size|2of5"]{width:40%;}
+div.mceItemCustomTag.block[customattributes*="size|3of5"]{width:60%;}
+div.mceItemCustomTag.block[customattributes*="size|4of5"]{width:80%;}
+div.mceItemCustomTag.block[customattributes*="last|true"]{float:none;_position:relative; _left:-3px; _margin-right: -3px;width:auto;clear-after:both;}
+div.mceItemCustomTag.block[customattributes*="last|true"]:after{ content: ""; display: block; height: 0; clear: both; }
+
+
+div.mceItemCustomTag.block{background:inherit;border-left:none;border-top:none;border-bottom:1px dashed #999;border-right:1px dashed #999;padding:2px 6px 2px 2px;}
+div.mceItemCustomTag.block[customattributes*="last|true"]{border-right:1px solid #999;padding:2px;}
+
+div.mceItemCustomTag.newline{clear:both;overflow:hidden;height:2px;padding:0;border:1px dashed #f00;background:#f00;}
+
+*[view="embed"]{display:block;}
+
+p[align="center"] img[view="embed"],
+p[align="right"] img[view="embed"] {margin-left:0;margin-right:auto}
+
+img[view="embed"][align="left"], img[view="embed"][align="middle"]{float:none;}
+img[view="embed"][align="middle"],
+p[align="center"] img[view="embed"][align="middle"],
+p[align="right"] img[view="embed"][align="middle"] {margin-left:auto; margin-right:auto;}
+img[view="embed"][align="right"],
+p[align="center"] img[view="embed"][align="right"],
+p[align="right"] img[view="embed"][align="right"]{margin-left:auto; margin-right:0;}
+
+
+
+img.mceItemCustomTag.htmlcode {
+	border:dotted 1px #000;
+	background:#fefefe url(../images/tango/image-x-generic22.png) no-repeat center center;
+}
+
+div.mceItemCustomTag.quote {
+	background:#f9f9f9 url(../images/bgquote.png) left top no-repeat;
+	border:none;
+	margin-bottom:0.5em;
+	padding-left:20px;
+}
+
+img.mceItemCustomTag:not([customattributes*="display_inline|true"]){float:none;display:block;}
+img.mceItemCustomTag:not([customattributes*="display_inline|true"])[align="middle"]{margin-left:auto !important; margin-right:auto !important;}
+img.mceItemCustomTag:not([customattributes*="display_inline|true"])[align="right"]{margin-left:auto !important; margin-right:0 !important;}
+img.mceItemCustomTag[customattributes*="display_inline|true"]{display:inline;}
+img.mceItemCustomTag[customattributes*="display_inline|true"][align="left"],
+img.mceItemCustomTag[customattributes*="display_inline|true"][align="middle"]{float:left;}
+img.mceItemCustomTag[customattributes*="display_inline|true"][align="right"]{float:right;}
+
+/*.xCenter {text-align: center;}*/
+
+*[customattributes*="fontclass|font-palatino"] {
+	font-family: "Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif !important;
+}
+
+*[customattributes*="fontclass|font-sansserif"] {
+	font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
+*[customattributes*="fontclass|font-times"] {
+	font-family: Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif !important;
+}
+
+*[customattributes*="fontclass|font-georgia"] {
+	font-family: Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif !important;
+}
+
+*[customattributes*="fontclass|font-trebuchet"] {
+	font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif !important;
+}
+
+*[customattributes*="fontclass|font-impact"] {
+	font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif !important;
+}
+
+*[customattributes*="fontclass|font-monospace"] {
+	font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace !important;
+}
+
+
+
+.font-palatino {
+	font-family: "Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif;
+}
+
+.font-sansserif {
+	font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+
+.nocolor {
+	color:inherit !important;
+}
+
+
+
+

@@ -1,0 +1,1 @@
+{$attribute.content.input|ezxmloutput('plainmail')}

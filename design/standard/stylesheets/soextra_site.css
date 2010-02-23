@@ -1,0 +1,119 @@
+/* **************** GRIDS ***************** */
+
+.line, .lastUnit {overflow: hidden;_overflow:visible;_zoom:1; }
+.unit{float:left;_zoom:1;}
+.size1of1{float:none;}
+.size1of2{width:50%;}
+.size1of3{width:33.33333%;}
+.size2of3{width:66.66666%;}
+.size1of4{width:25%;}
+.size3of4{width:75%;}
+.size1of5{width:20%;}
+.size2of5{width:40%;}
+.size3of5{width:60%;}
+.size4of5{width:80%;}
+
+/* use #page so this rule isn't set for paradox pdf. it needs the correct with to be set for lastUnit */
+#page .lastUnit {float:none;_position:relative; _left:-3px; _margin-right: -3px;width:auto;}
+
+/* for the paradoxpdf  */
+body.pdf .lastUnit {left:-3px; margin-right: -3px;}
+
+.unit-table {padding:0;}
+
+
+/* ****************** FONTS ****************/
+
+.font-10px {font-size:77% !important;}
+.font-11px {font-size:85% !important;}
+.font-12px {font-size:93% !important;}
+.font-13px {font-size:100% !important;}
+.font-14px {font-size:108% !important;}
+.font-15px {font-size:116% !important;}
+.font-16px {font-size:123.1% !important;}
+.font-17px {font-size:131% !important;}
+.font-18px {font-size:138.5% !important;}
+.font-19px {font-size:146.5% !important;}
+.font-20px {font-size:153.9% !important;}
+.font-21px {font-size:161.6% !important;}
+.font-22px {font-size:167% !important;}
+.font-23px {font-size:174% !important;}
+.font-24px {font-size:182% !important;}
+.font-25px {font-size:189% !important;}
+.font-26px {font-size:197% !important;}
+
+
+.font-sansserif {
+	font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
+.font-palatino {
+	font-family: "Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif !important;
+}
+
+.font-times {
+	font-family: Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif !important;
+}
+
+.font-georgia {
+	font-family: Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif !important;
+}
+
+.font-trebuchet {
+	font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif !important;
+}
+
+.font-impact {
+	font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif !important;
+}
+
+.font-monospace {
+	font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace !important;
+}
+
+/* ****************** CLASSES ****************/
+
+.nocolor {
+	color:inherit !important;
+}
+
+
+/* ****************** HTMLCODE ****************/
+
+.htmlcode-inline.object-left {
+	float:left;
+	margin-right:6px;
+}
+.htmlcode-inline.object-right {
+	float:right;
+	margin-left:6px;
+}
+.htmlcode-inline.object-center {
+	float:left;
+	vertical-align:middle;
+}
+
+.htmlcode.object-left {
+	clear:none;
+	float:none;
+}
+.htmlcode.object-center {
+	clear:none;
+	float:none;
+}
+.htmlcode.object-right{
+	clear:none;
+	float:none;
+	text-align:right;
+}
+.htmlcode.object-left .htmlcode-wrapper{
+	margin:0 auto 0 0;
+}
+.htmlcode.object-center .htmlcode-wrapper{
+	margin:0 auto 0 auto;
+}
+.htmlcode.object-right .htmlcode-wrapper{
+	margin:0 0 0 auto;
+	text-align:left;
+}
+
