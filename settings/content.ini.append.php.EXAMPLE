@@ -103,8 +103,8 @@ CustomAttributes[]=fontclass
 CustomAttributes[]=forecolor
 CustomAttributes[]=backcolor
 AvailableViewModes[]
-AvailableViewModes[]=PDF - A4
-AvailableViewModes[]=PDF - A5
+AvailableViewModes[A4]=PDF - A4
+AvailableViewModes[A5]=PDF - A5
 
 [ul]
 CustomAttributes[]=fontsize
@@ -196,10 +196,10 @@ CustomAttributes[]=border_color
 
 [embed]
 AvailableViewModes[]
-AvailableViewModes[]=embed
-AvailableViewModes[]=map
-AvailableViewModes[]=full
-AvailableViewModes[]=line
+AvailableViewModes[embed]=Embed
+AvailableViewModes[map]=Map
+AvailableViewModes[full]=Full
+AvailableViewModes[line]=Line
 CustomAttributes[]=margin
 CustomAttributes[]=padding
 CustomAttributes[]=border_style
@@ -210,8 +210,8 @@ CustomAttributes[]=attr_height
 
 [embed-inline]
 AvailableViewModes[]
-AvailableViewModes[]=embed-inline
-AvailableViewModes[]=map
+AvailableViewModes[embed-inline]=Embed inline
+AvailableViewModes[map]=Map
 CustomAttributes[]=margin
 CustomAttributes[]=padding
 CustomAttributes[]=border_style
