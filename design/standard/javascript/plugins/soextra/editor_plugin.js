@@ -451,41 +451,43 @@
 	
 	        if ( paragraphCleanup )
 	        {
-	            var editorElement = ed.dom.get( id ), emptyContent = ez.$c( [ '', '<br>', '<BR>', '&nbsp;', ' ', " " ] );
-	            // cleanup broken paragraphs after inserting block tags into paragraphs
-	            if ( editorElement.previousSibling
-	                 && editorElement.previousSibling.nodeName.toLowerCase() === 'p'
-	                 && ( !editorElement.previousSibling.hasChildNodes() || emptyContent.indexOf( editorElement.previousSibling.innerHTML ) !== -1 ))
-	            {
-	                editorElement.parentNode.removeChild( editorElement.previousSibling );
-	            }
-	            if ( editorElement.nextSibling
-	                    && editorElement.nextSibling.nodeName.toLowerCase() === 'p'
-	                    && ( !editorElement.nextSibling.hasChildNodes() || emptyContent.indexOf( editorElement.nextSibling.innerHTML ) !== -1 ))
-	           {
-	               editorElement.parentNode.removeChild( editorElement.nextSibling );
-	           }
+	        	var emptyContent = [ '', '<br>', '<BR>', '&nbsp;', ' ', " " ],
+	        		el = ed.dom.get( id );
+		        // cleanup broken paragraphs after inserting block tags into paragraphs
+		        if ( el.previousSibling
+		             && el.previousSibling.nodeName.toLowerCase() === 'p'
+		             && ( !el.previousSibling.hasChildNodes() || jQuery.inArray( el.previousSibling.innerHTML, emptyContent ) !== -1 ))
+		        {
+		                el.parentNode.removeChild( el.previousSibling );
+		        }
+		        if ( el.nextSibling
+		                && el.nextSibling.nodeName.toLowerCase() === 'p'
+		                && ( !el.nextSibling.hasChildNodes() || jQuery.inArray( el.nextSibling.innerHTML, emptyContent ) !== -1 ))
+		       {
+		                el.parentNode.removeChild( el.nextSibling );
+		       }
 	        }
 	    },
         
-        _insertCustomTag : function(data ) {
+        _insertCustomTag : function(data) {
         	var t = this,
-				ed = t.editor
+				ed = t.editor,
 				editorSelectedText = false,
 				editorSelectedHtml = false,
-				selectedHtml = ed.selection.getContent( {format:'text'} )
+				selectedHtml = ed.selection.getContent( {format:'text'} ),
 				tagHtml = '',
 				customTag = data.customTag,
 				imageSrc = '/extension/_soextra/design/standard/images/blank.gif';
-			
-            if ( !/\n/.test( selectedHtml ) && ez.string.trim( selectedHtml ) !== '' )
+				
+            if ( !/\n/.test( selectedHtml ) && jQuery.trim( selectedHtml ) !== '' )
                 editorSelectedText = selectedHtml;
 
             selectedHtml = ed.selection.getContent( {format:'html'} );
-            if ( ez.string.trim( selectedHtml ) !== '' )
+            if ( jQuery.trim( selectedHtml ) !== '' )
                 editorSelectedHtml = selectedHtml;
             
             if ( !editorSelectedHtml ) editorSelectedHtml = customTag;
+            
 
 	        if ( customTag === 'underline' )
 	        {
@@ -511,7 +513,6 @@
 	        {
 	            tagHtml = '<div id="__mce_tmp" type="custom" class="mceItemCustomTag ' + customTag + '"><p>' + editorSelectedHtml + '<\/p><\/div>';
 	        }
-            
         	
         	t._insertHTMLCleanly( ed, tagHtml, '__mce_tmp' );
         	var newNode = ed.dom.get('__mce_tmp');
