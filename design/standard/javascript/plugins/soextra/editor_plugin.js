@@ -442,17 +442,15 @@
 	            var edCurrentNode = ed.selection.getNode();
 	            if ( edCurrentNode && edCurrentNode.nodeName.toLowerCase() === 'p' )
 	            {
-	                html = '</p>' + html + '<p>';
 	                paragraphCleanup = true;
 	            }
 	        }
-	
 	        ed.execCommand('mceInsertRawHTML', false, html, {skip_undo : 1} );
-	
+			
+        	var emptyContent = [ '', '<br>', '<BR>', '&nbsp;', ' ', " " ],
+        		el = ed.dom.get( id );
 	        if ( paragraphCleanup )
 	        {
-	        	var emptyContent = [ '', '<br>', '<BR>', '&nbsp;', ' ', " " ],
-	        		el = ed.dom.get( id );
 		        // cleanup broken paragraphs after inserting block tags into paragraphs
 		        if ( el.previousSibling
 		             && el.previousSibling.nodeName.toLowerCase() === 'p'
@@ -467,6 +465,8 @@
 		                el.parentNode.removeChild( el.nextSibling );
 		       }
 	        }
+	        
+	        return el;
 	    },
         
         _insertCustomTag : function(data) {
@@ -511,27 +511,35 @@
 	        }
 	        else
 	        {
-	            tagHtml = '<div id="__mce_tmp" type="custom" class="mceItemCustomTag ' + customTag + '"><p>' + editorSelectedHtml + '<\/p><\/div>';
+	            tagHtml = '<div id="__mce_tmp" type="custom" class="' + customTag + ' mceItemCustomTag"><p>' + editorSelectedHtml + '<\/p><\/div>';
 	        }
         	
-        	t._insertHTMLCleanly( ed, tagHtml, '__mce_tmp' );
-        	var newNode = ed.dom.get('__mce_tmp');
+        	var newNode = t._insertHTMLCleanly( ed, tagHtml, '__mce_tmp' );
+        	newNode.id = '';
+        	
+        	newNode.setAttribute('id', null);
         	
         	// append a paragraph if user just inserted a custom tag in editor and it's the last tag
 	        var edBody = newNode.parentNode, doc = ed.getDoc(), temp = newNode;
-	        if ( edBody.nodeName !== 'BODY' )
+	        if ( edBody.nodeName.toLowerCase() !== 'body' )
 	        {
 	            temp = edBody;
 	            edBody = edBody.parentNode
 	        }
-	        if ( edBody.nodeName === 'BODY'
-	        && edBody.childNodes.length <= (ez.array.indexOf( edBody.childNodes, temp ) +1) )
+	        if ( edBody.nodeName.toLowerCase() === 'body'
+	        && edBody.childNodes.length <= (jQuery.inArray( temp, edBody.childNodes ) +1) )
 	        {
 	            var p = doc.createElement('p');
-	            p.innerHTML = ed.isIE ? '&nbsp;' : '<br />';
+	            p.innerHTML = ed.isIE ? '&nbsp;' : '<br \/>';
 	            edBody.appendChild( p );
 	        }
             return newNode;
+        },
+        
+        _arrayIndexOf: function( arr, o, s ) {
+            // javascript 1.6: finds the first index that is like object o, s is optional start index
+            for (var i=s || 0, l = arr.length; i < l; i++) if (arr[i]===o) return i;
+            return -1;
         },
         
         _createCustomTagMenu : function(n) {

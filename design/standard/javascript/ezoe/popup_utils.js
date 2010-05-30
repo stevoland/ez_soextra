@@ -308,12 +308,25 @@ var eZOEPopupUtils = {
         {
                 el.parentNode.removeChild( el.previousSibling );
         }
+        
         if ( el.nextSibling
                 && el.nextSibling.nodeName.toLowerCase() === 'p'
                 && ( !el.nextSibling.hasChildNodes() || jQuery.inArray( el.nextSibling.innerHTML, emptyContent ) !== -1 ))
        {
                 el.parentNode.removeChild( el.nextSibling );
        }
+       var edBody = el.parentNode, doc = ed.getDoc(), temp = el;
+        if ( edBody.nodeName.toLowerCase() !== 'body' )
+        {
+            temp = edBody;
+            edBody = edBody.parentNode;
+        }
+        if ( edBody.nodeName.toLowerCase() === 'body' && edBody.childNodes[edBody.childNodes.length-1] == el )
+        {
+            var p = doc.createElement('p');
+            p.innerHTML = ed.isIE ? '&nbsp;' : '<br />';
+            edBody.appendChild( p );
+        }
     },
 
     safeHtml: function( value )
