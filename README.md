@@ -45,10 +45,12 @@ A dropdown box to select a class for a tag under the cursor.
 	ClassDescription[pRed]=Red paragraph
 	ClassDescription[pBlue]=Bluey para
 	
+
 	#ezoe.ini:
 	[EditorLayout]
 	Buttons[]=soextra_class
 	
+
 	#ezoe_content.css:
 	paragraph.pRed {color:#f00;}
 	...
@@ -98,7 +100,7 @@ Requires the following patch of ezoe:
 
 ---
 
-In editor per class styling
+### In editor per class styling ###
 
 The following classes are added to the body of the document in the editor, allowing different styling of the editor content per class or attribute:
 
