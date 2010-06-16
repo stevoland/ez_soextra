@@ -53,7 +53,7 @@ A dropdown box to select a class for a tag under the cursor.
 
 	#ezoe_content.css:
 	paragraph.pRed {color:#f00;}
-	...
+	#...
 
 
 ---
@@ -88,15 +88,15 @@ Requires the following patch of ezoe:
 	Selection[]
 	Selection[]=Default
 	Selection[font-sansserif]=Sans-serif
-	...
+	#...
 
 	#soextra.ini
 	[sOExtraSettings]
 	FontSizes[Small]=10px
 	FontSizes[Massive]=72px
 
-	#ezoe_content.css
-	
+Font family and sizes use classes instead of inline styles by default to allow overriding with CSS. Check design/standard/stylesheets/soextra_site.css for styling. Font sizes assume the YUI fonts css is used. This behaviour can be overriden by setting the global var $#use_inline_styles=true. Then the respective values in soextra.ini are used in inline style attributes.
+
 
 ---
 
