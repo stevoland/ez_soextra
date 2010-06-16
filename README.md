@@ -172,7 +172,15 @@ When resizing an image in the editor, the dimensions are stored and used in the 
 The selected image alias is always used so scaling down (a bit) is better.
 Of course it's best to have the right sized image aliases but this might be useful for small tweaks.
 
-Currently this feature can't be turned off! TODO
+	#content.ini
+	[embed]
+	CustomAttributes[]=attr_width
+	CustomAttributes[]=attr_height
+	
+	[embed-inline]
+	CustomAttributes[]=attr_width
+	CustomAttributes[]=attr_height
+	
 
 ---
 	
@@ -225,11 +233,11 @@ Simple columns. Only one row and pixel widths.
 
 	#soextra.ini
 	[sOExtraSettings]
-	CustomCreateButtons[]=soextra_create_htmlcode
+	CustomCreateButtons[]=soextra_create_column
 	
-	[soextra_create_htmlcode]
+	[soextra_create_column]
 	# required...
-	CustomTag=htmlcode
+	CustomTag=column
 	Title=Insert new column
 	OpenDialog=enabled
 	IsEmpty=false
