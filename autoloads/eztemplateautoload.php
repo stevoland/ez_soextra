@@ -19,4 +19,7 @@ $eZTemplateOperatorArray[] = array( 'script' => 'extension/_soextra/autoloads/sj
 $eZTemplateOperatorArray[] = array( 'script' => 'extension/_soextra/autoloads/sregexoperator.php',
                                     'class' => 'sRegexOperator',
                                     'operator_names' => array( 'preg_replace') );
+$eZTemplateOperatorArray[] = array( 'script' => 'extension/_soextra/autoloads/soeattributesoperator.php',
+                                    'class' => 'sOEAttributesOperator',
+                                    'operator_names' => array( 'soe_styles', 'soe_classes' ) );
 ?>
