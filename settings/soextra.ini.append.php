@@ -108,4 +108,12 @@ OpenDialog=enabled
 IsEmpty=false
 
 
+[literal]
+#List of classes defined per tag as AvailableClasses content.ini that should be included
+#in the select style toolbar button. If not defined, all AvailableClasses are used.
+FavouriteClasses[]
+FavouriteClasses[]=html
+FavouriteClasses[]=javscript
+FavouriteClasses[]=css
+
 */ ?>

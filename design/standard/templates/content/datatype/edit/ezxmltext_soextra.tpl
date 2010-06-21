@@ -10,7 +10,11 @@
         
         soestyle_classes_per_tag : {ldelim}
             {foreach $tags as $tag}
-                {set $classes=ezini($tag, 'AvailableClasses', 'content.ini',,true() ) }
+                {if ezini_hasvariable($tag, 'FavouriteClasses', 'soextra.ini',,true() )}
+                    {set $classes=ezini($tag, 'FavouriteClasses', 'soextra.ini',,true() ) }
+                {else}
+                    {set $classes=ezini($tag, 'AvailableClasses', 'content.ini',,true() ) }
+                {/if}
                 "{$tag}": "{$classes|implode(',')}"{delimiter},
                 {/delimiter}
             {/foreach}
@@ -19,8 +23,8 @@
         {def $descriptions=hash()}
         soestyle_class_descriptions_per_tag : {ldelim}
             {foreach $tags as $tag}
-                {set $classes=ezini($tag, 'AvailableClasses', 'content.ini',,true() )
-                     $descriptions=cond( ezini_hasvariable($tag, 'ClassDescription', 'content.ini',,true()  ), ezini($tag, 'ClassDescription', 'content.ini',,true() ), hash() ) }
+            
+                {set $descriptions=cond( ezini_hasvariable($tag, 'ClassDescription', 'content.ini',,true()  ), ezini($tag, 'ClassDescription', 'content.ini',,true() ), hash() ) }
                 "{$tag}": {ldelim}{foreach $classes as $class}"{$class}": "{if is_set($descriptions[$class])}{$descriptions[$class]|wash}{/if}"{delimiter},
                 {/delimiter}{/foreach}{rdelim}{delimiter},
                 {/delimiter}
