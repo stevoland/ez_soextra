@@ -44,7 +44,7 @@
 			// Register buttons
 			each([
 				['soextra_classselect', 'ezstyle.desc', 'mceeZStyle'],
-				['soextra_classs', 'ezstyle.desc', 'soextra_class'],
+				['soextra_class', 'ezstyle.desc', 'soextra_class'],
 				['soextra_fontsize', 'soextra_fontsize.desc', 'soextra_fontsize'],
 				['soextra_fontclass', 'soextra_fontclass.desc', 'soextra_fontclass'],
 				['soextra_forecolor', 'textcolor.desc', 'mceTextColor'],
@@ -477,7 +477,13 @@
 				selectedHtml = ed.selection.getContent( {format:'text'} ),
 				tagHtml = '',
 				customTag = data.customTag,
-				imageSrc = '/extension/_soextra/design/standard/images/blank.gif';
+				imageSrc = 'extension/_soextra/design/standard/images/blank.gif';
+			
+			if ( !!window._ez && !!_ez._root_url ) {
+				imageSrc = _ez._root_url + imageSrc;
+			} else {
+				imageSrc = '/' + imageSrc;
+			}
 				
             if ( !/\n/.test( selectedHtml ) && jQuery.trim( selectedHtml ) !== '' )
                 editorSelectedText = selectedHtml;

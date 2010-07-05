@@ -2,7 +2,7 @@
             {set $editor_css_list = $editor_css_list|append( ezini('StylesheetSettings', 'EditorDialogCSSFileList', 'design.ini',,true()  ) )}
         {/if}
     
-        {def $tag_list='paragraph,literal,header,table,td,th,strong,emphasize,ol,ul,link,embed,embed-inline'
+        {def $tag_list='paragraph,literal,header,table,td,th,strong,emphasize,ol,ul,li,link,embed,embed-inline'
              $tags=$tag_list|explode(',')
              $all_tags=$tags|merge(ezini('CustomTagSettings', 'AvailableCustomTags', 'content.ini',,true() ) )
              $classes=array()
@@ -109,5 +109,3 @@
                 {delimiter},{/delimiter}
             {/foreach}
         {rdelim},
-        
-        soestyle_body_classes: "ezcca-{$attribute.contentclassattribute_id} ezcc-{$attribute.object.class_identifier}",

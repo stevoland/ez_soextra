@@ -22,7 +22,7 @@
          $editor_css_list  = array( concat('skins/', $skin, '/ui.css') )
          $ez_locale        = ezini( 'RegionalSettings', 'Locale', 'site.ini')
          $language         = '-'|concat( $ez_locale )
-         $dependency_js_list   = array( 'ezoe::i18n::'|concat( $language ) )
+         $dependency_js_list   = array( 'ezoe::i18n::'|concat( $language ), 'soextra::i18n::'|concat( $language ) )
          $spell_languages = '+English=en'
          $directionality = 'ltr'
     }
@@ -205,6 +205,8 @@
         eZOeAttributeSettings['theme_advanced_path_location'] = "{$layout_settings['path_location']}";
         eZOeAttributeSettings['theme_advanced_statusbar_location'] = "{$layout_settings['path_location']}";
         eZOeAttributeSettings['theme_advanced_toolbar_location'] = "{$layout_settings['toolbar_location']}";
+        
+        eZOeAttributeSettings['soestyle_body_classes'] = "ezcca-{$attribute.contentclassattribute_id} ezcc-{$attribute.object.class_identifier}";
 
         eZOeToggleEditor( '{$attribute_base}_data_text_{$attribute.id}', eZOeAttributeSettings );
 

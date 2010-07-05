@@ -1,0 +1,6 @@
+- Move horrible template code in tag templates to a template function
+- i18n
+- Package content objects with functional test cases
+- Test Grade A browsers -IE
+- Test IE8
+- Add style tag option to allow styling of selections
