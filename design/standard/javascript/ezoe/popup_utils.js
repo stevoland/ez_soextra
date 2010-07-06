@@ -511,7 +511,9 @@ var eZOEPopupUtils = {
                    el.value = values[name];
 
                 try {
-                    el.onchange();
+                    if ( el.onchange && typeof el.onchange == 'function' ) {
+                        el.onchange();
+                    }
                 } catch (ex) {
                     // Try fire event, ignore errors
                 }

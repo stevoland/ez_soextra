@@ -2,7 +2,7 @@
 {def $style=''|soe_styles('htmlcode')
      $inner_style=''|soe_styles('htmlcode_inner')
 	 $classes=''|soe_classes('htmlcode')}
-<div class="{$style|wash}"{if $style|trim|ne('') style="{$style}"{/if}>
+<div class="{$classes|wash}"{if $style|trim|ne('') style="{$style}"{/if}>
 {if or( is_unset($display_inline), $display_inline|eq('') )}
 	<div class="htmlcode-wrapper" style="{$inner_style}">
 {/if}

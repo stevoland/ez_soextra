@@ -30,7 +30,8 @@ class sOEAttributesOperator
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         $ini = eZINI::instance( 'content.ini' );
-        $customAttributes = $ini->variable( $namedParameters['tagName'], 'CustomAttributes' );
+        $customAttributes = ( $ini->hasVariable( $namedParameters['tagName'], 'CustomAttributes' ) ) ?
+            $ini->variable( $namedParameters['tagName'], 'CustomAttributes' ) : array();
         
         $ini = eZINI::instance( 'soextra.ini' );
         $classStyles = $ini->variable( 'sOExtraSettings', 'ClassStyles' );
@@ -166,7 +167,7 @@ class sOEAttributesOperator
                     }
                 }
                 if ( $tagName == 'htmlcode' ) {
-                    $operatorValue .= ( isset($attributes['display_inline']) ) ? 'htmlcode-inline' : 'htmlcode';
+                    $operatorValue .= ( isset($attributes['display_inline']) ) ? 'htmlcode-inline ' : 'htmlcode ';
                     if ( !isset($attributes['in_oe']) && isset($attributes['align']) ) {
                         $operatorValue .= 'object-' . $attributes['align'];
                     }
