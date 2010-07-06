@@ -203,11 +203,11 @@
 					{
 						t.backColorNode = n;
 					}
-					if ( !!t.fontSizeControl &&  !t.fontSizeNode && !!t.attributesPerTag[xmlName] && t.attributesPerTag[xmlName].indexOf('fontsize') >= 0 )
+					if ( !!t.fontSizeControl && !t.fontSizeNode && !!t.attributesPerTag[xmlName] && t.attributesPerTag[xmlName].indexOf('fontsize') >= 0 )
 					{
 						t.fontSizeNode = n;
 					}
-					if ( !!t.fontClassControl &&  !t.fontClassNode && !!t.attributesPerTag[xmlName] && t.attributesPerTag[xmlName].indexOf('fontclass') >= 0 )
+					if ( !!t.fontClassControl && !t.fontClassNode && !!t.attributesPerTag[xmlName] && t.attributesPerTag[xmlName].indexOf('fontclass') >= 0 )
 					{
 						t.fontClassNode = n;
 					}

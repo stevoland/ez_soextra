@@ -40,13 +40,18 @@ class sOEAttributesOperator
         {
             foreach ( $variables as $name => $val )
             {
-                if ( !empty(trim($val)) ) {
-                    $attributes[$name] = $val;
+                if ( is_string($val) ) {
+                    $val = trim($val);
+                    if ( !empty($val) ) {
+                        $attributes[$name] = $val;
+                    }
                 }
             }
         }
         
-        $useInlineStyles = ( !!$attributes['use_inline_styles'] );
+        $useInlineStyles = ( isset($attributes['use_inline_styles']) && $attributes['use_inline_styles'] );
+        
+        $tagName = $namedParameters['tagName'];
                 
         switch ( $operatorName )
         {
@@ -79,8 +84,8 @@ class sOEAttributesOperator
                         $operatorValue .= 'height:' . $attributes['height'] . ';';
                     }
                 }
-                if ( in_array('line_height', $customAttributes) && isset($attributes['line_height']) ) {
-                    $operatorValue .= 'line-height:' . $attributes['line_height'] . ';';
+                if ( in_array('lineheight', $customAttributes) && isset($attributes['lineheight']) ) {
+                    $operatorValue .= 'line-height:' . $attributes['lineheight'] . ';';
                 }
                 if ( in_array('border', $customAttributes) && isset($attributes['border']) ) {
                     $operatorValue .= 'border:' .$attributes['border'] . ';';
@@ -95,7 +100,7 @@ class sOEAttributesOperator
                         $operatorValue .= 'border-width:' . $attributes['border_size'] . ';';
                     }
                 }
-                if ( is_set($attributes['align']) ) {
+                if ( isset($attributes['align']) ) {
                     $operatorValue .= 'text-align:' . $attributes['align'] . ';';
                 }
                 if ( $useInlineStyles ) {
@@ -127,9 +132,9 @@ class sOEAttributesOperator
                         $operatorValue .= 'font-size:' . $attributes['fontsize'] . ';';
                     }
                 }
-                if ( $tagName == 'htmlcode_inner' && !isset($attributes['display_inline'] &&
-                    ( isset($attributes['align'] || $useInlineStyles ) ) {
-                    $align = $attributes['align']
+                if ( $tagName == 'htmlcode_inner' && !isset($attributes['display_inline']) &&
+                    ( isset($attributes['align']) || $useInlineStyles ) ) {
+                    $align = $attributes['align'];
                     if ( $align == 'left' || ( !$align && $useInlineStyles ) ) {
                         $operatorValue .= 'margin-left:0;margin-right:auto;';
                     } elseif ( $align == 'left') {
@@ -154,7 +159,7 @@ class sOEAttributesOperator
                 if ( in_array('fontsize', $customAttributes) && isset($attributes['fontsize']) ) {
                     $operatorValue .= 'font-' . $attributes['fontsize'] . ' ';
                 }
-                if ( $tagName == 'embed-inline' && isset($attributes['object_parameters']) )
+                if ( $tagName == 'embed-inline' && isset($attributes['object_parameters']) ) {
                     $align = $attributes['object_parameters']['align'];
                     if ( $align ) {
                         $operatorValue .= 'object-' . $align . '';

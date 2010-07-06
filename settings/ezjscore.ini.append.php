@@ -3,6 +3,6 @@
 
 [ezjscServer_soextra]
 Class=soextraServerFunctions
-File=extension/ezoe/classes/soextraserverfunctions.php
+File=extension/_soextra/classes/soextraserverfunctions.php
 
 */?>

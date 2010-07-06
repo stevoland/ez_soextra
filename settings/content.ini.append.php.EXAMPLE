@@ -135,6 +135,7 @@ CustomAttributes[]=fontsize
 CustomAttributes[]=fontclass
 CustomAttributes[]=forecolor
 CustomAttributes[]=backcolor
+AvailableClasses[]
 
 
 
