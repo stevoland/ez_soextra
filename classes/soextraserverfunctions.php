@@ -28,7 +28,13 @@ class soextraServerFunctions extends ezjscServerFunctions
 
         $i18nArray =  array( $lang => array(
             'soextra' => array(
-                
+                'font_size' => ezi18n( 'design/standard/soextra', "Font size"),
+                'font_class' => ezi18n( 'design/standard/soextra', "Font style"),
+                'class' => ezi18n( 'design/standard/soextra', "Element style"),
+                'remove_tag' => ezi18n( 'design/standard/ezoe/validator', 'Remove &quot;%tag&quot; tag', null, array( '%tag' => '<tag>' )),
+                'remove_tag_keep_contents' => ezi18n( 'design/standard/ezoe/validator', 'Remove &quot;%tag&quot; tag (keep contents)', null, array( '%tag' => '<tag>' )),
+                'cursor_before' => ezi18n( 'design/standard/ezoe/validator', 'Place cursor before &quot;%tag&quot;', null, array( '%tag' => '<tag>' )),
+                'cursor_after' => ezi18n( 'design/standard/ezoe/validator', 'Place cursor after &quot;%tag&quot;', null, array( '%tag' => '<tag>' )),
             ),
         ));
         $i18nString = json_encode( $i18nArray );

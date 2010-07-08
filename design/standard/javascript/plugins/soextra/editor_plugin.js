@@ -39,9 +39,6 @@
 			t.numAncestorsWithClasses = 0;
 			t.firstUIupdate = true;
 			
-			//console.info(t.customCreateButtonData);
-
-			// Register buttons
 			each([
 				['soextra_classselect', 'ezstyle.desc', 'mceeZStyle'],
 				['soextra_class', 'ezstyle.desc', 'soextra_class'],
@@ -65,7 +62,19 @@
 					ed.dom.addClass(body, classes);
 			});
 		},
+		
+		translate : function(ed, s, replace)
+		{
+			var i18nSting = ed.translate(s);
+			if ( !!replace ) {
+				for (key in replace) {
+	                i18nSting = i18nSting.replace( '<' + key + '>', replace[key] );
+	            }
+	            return i18nSting.replace(/&quot;/g, '"');
+	        }
+		},
 
+		// Set img dimensions to values of attr_height + attr_width - for resizing embedded items + custom tags
         _pageInitHandler : function(ed)
 		{
 			var t = this,
@@ -80,6 +89,7 @@
 			});
 		},
 
+		// Set attr_height + attr_width of embeds and custom tags to dimensions of object in editor
         _submitHandler : function(ed, o)
 		{
 			var t = this,
@@ -413,8 +423,8 @@
 		createControl : function(n, cm)
         {
 			switch (n) {
-                case "soextra_classselect":
-                    return this._createClassSelect();
+                /*case "soextra_classselect":
+                    return this._createClassSelect();*/
 				case "soextra_forecolor":
                     return this._createTextColorMenu();
                 case "soextra_backcolor":
@@ -555,10 +565,7 @@
 			
 			c.settings.onclick = function() {
 				var data = t.customCreateButtonData[n];
-					
-					
-				//console.info(this);
-				
+								
 				if ( data.openDialog == 'enabled' )
 				{
 					ed.execCommand( 'mceCustom', null, data.customTag );
@@ -569,8 +576,6 @@
 					ed.dom.setAttrib(newNode, 'id', '');
 				}
 			}
-			
-			//console.info(c);
 			
 			t.customCreateButtons[n] = c;
 			return c;
@@ -583,7 +588,7 @@
 
 			c.onRenderMenu.add(function(c, m) {
 				m.removeAll();
-				m.add({title : 'Font size', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
+				m.add({title : 'soextra.font_size', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
 				each(t.fontSizes, function(k, v) {
 					var o = {icon : 1}, mi;
 
@@ -609,9 +614,12 @@
 		_createFontClassMenu : function(n, cm) {
 			var t = this;
 			var ed = t.editor;
-			var c = ed.controlManager.createSplitButton(n, {title : 'Font family', ezPlugin: true, cmd : 'soeXtraFontClass', scope : t});
-
-			
+			var c = ed.controlManager.createSplitButton(n, {
+						title : 'soextra.font_class',
+						ezPlugin: true,
+						cmd : 'soeXtraFontClass',
+						scope : t
+					});
 			
 			t.fontClassControl = c;
 
@@ -621,7 +629,12 @@
 		_createClassMenu : function(n, cm) {
 			var t = this;
 			var ed = t.editor;
-			var c = ed.controlManager.createSplitButton(n, {title : 'Style', ezPlugin: true, cmd : 'soeXtraClass', scope : t});
+			var c = ed.controlManager.createSplitButton(n, {
+						title : 'soextra.class',
+						ezPlugin: true,
+						cmd : 'soeXtraClass',
+						scope : t
+					});
 			
 			each(ed.getParam('soestyle_classes_per_tag', '', 'hash'), function(v, k) {
                 if (v)
@@ -640,7 +653,7 @@
 			return c;
 		},
 		
-		_createClassSelect : function(n) {
+		/*_createClassSelect : function(n) {
             var t = this, ed = t.editor, cf = ed.controlManager, c = cf.createListBox('classselect', {
                 title : 'Class',
                 onselect : function(v) {
@@ -671,16 +684,17 @@
 						var vals = v.split(',');
 						t.classesPerTag[k] = [];
 						each(vals, function(v){
+							// This check is just here for backwards compatability with an old extension
 							if ( ',xCenter,xLeft,xRight,xJustify,'.indexOf(v) < 0 )
 								t.classesPerTag[k].push(v);
-						})
+						});
 					}
                 });
             }
 			t.classSelect = c;
 
             return c;
-        },
+        },*/
 		
 		_createTextColorMenu : function() {
             var c, t = this, s = t.editor.settings, o = {}, v;
