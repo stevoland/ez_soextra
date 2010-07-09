@@ -3,6 +3,8 @@
 If you worship at the altar of the separation of style and content then this extension isn't for you.
 But if you've got a fussy client who doesn't understand why he can't make some text red then this might be of interest.
 
+![sOExtra Interface!](http://github.com/stevoland/ez_soextra/raw/master/doc/screen1.png)
+
 This is a collection of enhancements to the eZ Online Editor. They range from simple usability improvements to slightly mad hacks.
 They were developed for a specfic client who thankfully is enamoured of Macs therefore Internet Explorer 7+ compatability is not
 guaranteed and IE6 is never going to happen. In fact they haven't been tested much in anything other than Firefox 3.6.
