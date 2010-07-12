@@ -19,6 +19,7 @@
 			t.fontSizes = ed.getParam('soestyle_font_sizes', '', 'hash');
 			t.fontClassesPerTag = ed.getParam('soestyle_font_classes_per_tag', '', 'hash');
 			t.customCreateButtonData = ed.getParam('soestyle_custom_create_buttons', '', 'hash');
+			t.emptyElements = ed.getParam('soestyle_empty_elements', '', 'hash');
 			t.customCreateButtons = {};
 			t.classSelect;
 			t.classSelectAncestors = [];
@@ -146,7 +147,12 @@
 		
 		
 		_updateUI : function(n, ed, cm) {
-			var t = this, s = t.editor.settings, theme = t.editor.theme;
+			var t = this, s = t.editor.settings, theme = t.editor.theme, empty;
+			
+			if ( empty = t.isAncestorEmptyElement(n) ) {
+				console.info(tinymce);
+				t.editor.selection.select(empty);
+			}
 			
 			// get rid of old menu
 			if ( !!t.classSelect )
@@ -695,6 +701,45 @@
 
             return c;
         },*/
+        
+        isAncestorEmptyElement : function(n) {
+        	while ( n.parentNode && n.parentNode.nodeName != 'body' ) {
+        		n = n.parentNode;
+        		if ( this.isEmptyElement(n) ) {
+        			return n;
+        		}
+        	}
+        	return false;
+        },
+        
+        isEmptyElement : function(n) {
+        	return ( jQuery.inArray(this.getNiceName(n), this.emptyElements) > -1 );
+        },
+        
+        getNiceName : function(n) {
+        	var na, theme = this.editor.theme, s = theme.settings;
+            if ( v = theme.__tagsToXml( n ) )
+                na = v;
+            else
+        		na = n.nodeName.toLowerCase();
+        	// Fake name
+            if (v = tinymce.DOM.getAttrib(n, 'mce_name'))
+                na = v;
+            if (v = n.className)
+            {
+                v = v.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable|custom)/g, '');
+
+                if ( v = jQuery.trim( v ) )
+                {
+                    na = v;
+                }
+        	}
+            
+        	if ( s.theme_ez_xml_alias_list && s.theme_ez_xml_alias_list[na] !== undefined ) {
+            	na = s.theme_ez_xml_alias_list[na];
+            }
+            return na;
+        },
 		
 		_createTextColorMenu : function() {
             var c, t = this, s = t.editor.settings, o = {}, v;

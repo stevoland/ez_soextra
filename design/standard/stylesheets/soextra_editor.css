@@ -32,6 +32,8 @@ div.mceItemCustomTag.block[customattributes*="last|true"]{border-right:1px solid
 
 div.mceItemCustomTag.newline{clear:both;overflow:hidden;height:2px;padding:0;border:1px dashed #f00;background:#f00;}
 
+div.mceItemCustomTag.pagebreak{padding:0;text-align:center;text-transform:uppercase;font-size:9px;}
+
 *[view="embed"]{display:block;}
 
 p[align="center"] img[view="embed"],

@@ -109,3 +109,11 @@
                 {delimiter},{/delimiter}
             {/foreach}
         {rdelim},
+        
+        soestyle_empty_elements : [
+            {if ezini_hasvariable('sOExtraSettings', 'EmptyElements', 'soextra.ini',,true() )}
+                {foreach ezini('sOExtraSettings', 'EmptyElements', 'soextra.ini',,true() ) as $element }
+                    "{$element}"{delimiter},{/delimiter}
+                {/foreach}
+            {/if}
+        ],

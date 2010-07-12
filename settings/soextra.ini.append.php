@@ -58,6 +58,11 @@ FontSizes[64px]=64px
 FontSizes[68px]=68px
 FontSizes[72px]=72px
 
+# Elements that can't have content inside them - not including inline image based embeds
+EmptyElements[]
+EmptyElements[]=pagebreak
+EmptyElements[]=newline
+
 
 CustomCreateButtons[]
 CustomCreateButtons[]=soextra_create_block

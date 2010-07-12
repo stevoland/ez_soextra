@@ -1202,83 +1202,92 @@
                     del, cursorBefore, cursorAfter = null;
 
                     //u = "javascript:tinymce.EditorManager.get('" + ed.id + "').theme._sel('" + (de++) + "');";
-                    if ( s.theme_ez_statusbar_open_dialog )
-                    {
-                        pi = DOM.create('a', {'href' : "javascript:;", 'onmousedown' : 'return false;', title : ti, 'class' : 'mcePath_' + (de++), 'onclick' : 'return false;'}, na);
-                        Event.add( pi, 'click', function(e){
-                            var x = t.__getTagCommand( n );
-                            if (x) ed.execCommand( x.cmd, n || false, x.val );
-                        });
-                        
-                        
-                        if ( !!ed.plugins.soextra && n.nodeName != 'P' && n.nodeName != 'LI')
+                    if ( !ed.plugins.soextra || !ed.plugins.soextra.isAncestorEmptyElement(n) ) {
+                        if ( s.theme_ez_statusbar_open_dialog )
                         {
-                            if ( n.nodeName != 'UL' && n.nodeName != 'OL' )
-                            {
-                                var delTitle = ( n.nodeName != 'IMG' && na != 'embed' && na != 'embed-inline' ) ?
-                                        'soextra.remove_tag_keep_contents' : 'soextra.remove_tag';
-                                delTitle = ed.plugins.soextra.translate(ed, delTitle, {tag: na});
-                                del = DOM.create('a', {'href' : "javascript:;", 'onmousedown' : 'return false;', title : delTitle, 'class' : 'mcePath_del', 'onclick' : 'return false;'}, 'x');
-                            }
-                            Event.add( del, 'click', function(e){
-                                if ( n.nodeName == 'IMG' || na == 'embed' || na == 'embed-inline' )
-                                    DOM.remove(n);
-                                else if ( t.__simpleTagsToXmlHash[n.nodeName] == 'header' || na == 'literal' )
-                                {
-                                    DOM.replace(DOM.create('p',{}), n, true);
-                                }
-                                else
-                                    DOM.remove(n, true);
+                            pi = DOM.create('a', {'href' : "javascript:;", 'onmousedown' : 'return false;', title : ti, 'class' : 'mcePath_' + (de++), 'onclick' : 'return false;'}, na);
+                            Event.add( pi, 'click', function(e){
+                                var x = t.__getTagCommand( n );
+                                if (x) ed.execCommand( x.cmd, n || false, x.val );
                             });
-                            if ( n.nodeName == 'DIV' || n.nodeName == 'UL' || n.nodeName == 'OL' || na == 'literal' )
+                            
+                            
+                            if ( !!ed.plugins.soextra && n.nodeName != 'P' && n.nodeName != 'LI')
                             {
-                                if ( !n.previousSibling || n.previousSibling.nodeName != 'P' )
+                                if ( n.nodeName != 'UL' && n.nodeName != 'OL' )
                                 {
-                                    cursorBefore = DOM.create('a', {'href' : "javascript:;", 'onmousedown' : 'return false;', title : ed.plugins.soextra.translate(ed, 'soextra.cursor_before', {tag: na}), 'class' : 'mcePath_cursorbefore', 'onclick' : 'return false;'}, '+');
-                                    Event.add( cursorBefore, 'click', function(e){
-                                        var p = DOM.create('p');
-                                        p.innerHTML = ed.isIE ? '&nbsp;' : '<br />';
-                                        n.parentNode.insertBefore( p, n );
-                                        ed.selection.select(p);
-                                    });
+                                    var delTitle = ( n.nodeName != 'IMG' && na != 'embed' && na != 'embed-inline' ) ?
+                                            'soextra.remove_tag_keep_contents' : 'soextra.remove_tag';
+                                    delTitle = ed.plugins.soextra.translate(ed, delTitle, {tag: na});
+                                    del = DOM.create('a', {'href' : "javascript:;", 'onmousedown' : 'return false;', title : delTitle, 'class' : 'mcePath_del', 'onclick' : 'return false;'}, 'x');
                                 }
-                                if ( !n.nextSibling || n.nextSibling.nodeName != 'P' )
+                                Event.add( del, 'click', function(e){
+                                    if ( n.nodeName == 'IMG' || na == 'embed' || na == 'embed-inline' )
+                                        DOM.remove(n);
+                                    else if ( t.__simpleTagsToXmlHash[n.nodeName] == 'header' || na == 'literal' )
+                                    {
+                                        DOM.replace(DOM.create('p',{}), n, true);
+                                    }
+                                    else {
+                                        DOM.remove(n, !ed.plugins.soextra.isEmptyElement(n));
+                                    }
+                                });
+                                if ( n.nodeName == 'DIV' || n.nodeName == 'UL' || n.nodeName == 'OL' || na == 'literal' )
                                 {
-                                    cursorAfter = DOM.create('a', {'href' : "javascript:;", 'onmousedown' : 'return false;', title : ed.plugins.soextra.translate(ed, 'soextra.cursor_after', {tag: na}), 'class' : 'mcePath_cursorafter', 'onclick' : 'return false;'}, '+');
-                                    Event.add( cursorAfter, 'click', function(e){
-                                        var p = DOM.create('p');
-                                        p.innerHTML = ed.isIE ? '&nbsp;' : '<br />';
-                                        DOM.insertAfter( p, n );
-                                        ed.selection.select(p);
-                                    });
+                                    if ( !n.previousSibling || n.previousSibling.nodeName != 'P' )
+                                    {
+                                        if ( !(n.previousSibling && ed.plugins.soextra.getNiceName(n) == 'block' && ed.plugins.soextra.getNiceName(n.previousSibling) == 'block') &&
+                                            !(n.previousSibling && ed.plugins.soextra.getNiceName(n) == 'column' && ed.plugins.soextra.getNiceName(n.previousSibling) == 'column') ) {
+                                            cursorBefore = DOM.create('a', {'href' : "javascript:;", 'onmousedown' : 'return false;', title : ed.plugins.soextra.translate(ed, 'soextra.cursor_before', {tag: na}), 'class' : 'mcePath_cursorbefore', 'onclick' : 'return false;'}, '+');
+                                            Event.add( cursorBefore, 'click', function(e){
+                                                var p = DOM.create('p');
+                                                p.innerHTML = ed.isIE ? '&nbsp;' : '<br />';
+                                                n.parentNode.insertBefore( p, n );
+                                                ed.selection.select(p);
+                                            });
+                                        }
+                                    }
+                                    if ( !n.nextSibling || n.nextSibling.nodeName != 'P' )
+                                    {
+                                        if ( !(n.nextSibling && ed.plugins.soextra.getNiceName(n) == 'block' && ed.plugins.soextra.getNiceName(n.nextSibling) == 'block') &&
+                                            !(n.nextSibling && ed.plugins.soextra.getNiceName(n) == 'column' && ed.plugins.soextra.getNiceName(n.nextSibling) == 'column') ) {
+                                            cursorAfter = DOM.create('a', {'href' : "javascript:;", 'onmousedown' : 'return false;', title : ed.plugins.soextra.translate(ed, 'soextra.cursor_after', {tag: na}), 'class' : 'mcePath_cursorafter', 'onclick' : 'return false;'}, '+');
+                                            Event.add( cursorAfter, 'click', function(e){
+                                                var p = DOM.create('p');
+                                                p.innerHTML = ed.isIE ? '&nbsp;' : '<br />';
+                                                DOM.insertAfter( p, n );
+                                                ed.selection.select(p);
+                                            });
+                                        }
+                                    }
                                 }
                             }
                         }
-                    }
-                    else
-                    {
-                        pi = DOM.create('a', {'href' : "javascript:;", 'onmousedown' : 'return false;', title : ti, 'class' : 'mcePath_' + (de++)}, na);
-                    }
-
-                    if (p.hasChildNodes()) {
-                        p.insertBefore(DOM.doc.createTextNode(' \u00bb '), p.firstChild);
-                        if ( !!del )
-                            p.insertBefore(del, p.firstChild);
-                        if ( !!cursorAfter )
-                            p.insertBefore(cursorAfter, p.firstChild);
-                        p.insertBefore(pi, p.firstChild);
-                        if ( !!cursorBefore )
-                            p.insertBefore(cursorBefore, p.firstChild);
-                    }
-                    else
-                    {
-                        if ( !!cursorBefore )
-                            p.appendChild(cursorBefore);
-                        p.appendChild(pi);
-                        if ( !!cursorAfter )
-                            p.appendChild(cursorAfter);
-                        if ( !!del )
-                            p.appendChild(del);
+                        else
+                        {
+                            pi = DOM.create('a', {'href' : "javascript:;", 'onmousedown' : 'return false;', title : ti, 'class' : 'mcePath_' + (de++)}, na);
+                        }
+    
+                        if (p.hasChildNodes()) {
+                            p.insertBefore(DOM.doc.createTextNode(' \u00bb '), p.firstChild);
+                            if ( !!del )
+                                p.insertBefore(del, p.firstChild);
+                            if ( !!cursorAfter )
+                                p.insertBefore(cursorAfter, p.firstChild);
+                            p.insertBefore(pi, p.firstChild);
+                            if ( !!cursorBefore )
+                                p.insertBefore(cursorBefore, p.firstChild);
+                        }
+                        else
+                        {
+                            if ( !!cursorBefore )
+                                p.appendChild(cursorBefore);
+                            p.appendChild(pi);
+                            if ( !!cursorAfter )
+                                p.appendChild(cursorAfter);
+                            if ( !!del )
+                                p.appendChild(del);
+                        }
                     }
                 }, ed.getBody());
             }
