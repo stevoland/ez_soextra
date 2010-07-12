@@ -1211,13 +1211,13 @@
                         });
                         
                         
-                        if ( n.nodeName != 'P' && n.nodeName != 'LI')
+                        if ( !!ed.plugins.soextra && n.nodeName != 'P' && n.nodeName != 'LI')
                         {
                             if ( n.nodeName != 'UL' && n.nodeName != 'OL' )
                             {
-                                var delTitle = 'Remove \'' + na + '\' tag';
-                                if ( n.nodeName != 'IMG' && na != 'embed' && na != 'embed-inline' )
-                                    delTitle += ' (keep contents)';
+                                var delTitle = ( n.nodeName != 'IMG' && na != 'embed' && na != 'embed-inline' ) ?
+                                        'soextra.remove_tag_keep_contents' : 'soextra.remove_tag';
+                                delTitle = ed.plugins.soextra.translate(ed, delTitle, {tag: na});
                                 del = DOM.create('a', {'href' : "javascript:;", 'onmousedown' : 'return false;', title : delTitle, 'class' : 'mcePath_del', 'onclick' : 'return false;'}, 'x');
                             }
                             Event.add( del, 'click', function(e){
@@ -1234,7 +1234,7 @@
                             {
                                 if ( !n.previousSibling || n.previousSibling.nodeName != 'P' )
                                 {
-                                    cursorBefore = DOM.create('a', {'href' : "javascript:;", 'onmousedown' : 'return false;', title : 'Place cursor before \'' + na + '\'', 'class' : 'mcePath_cursorbefore', 'onclick' : 'return false;'}, '+');
+                                    cursorBefore = DOM.create('a', {'href' : "javascript:;", 'onmousedown' : 'return false;', title : ed.plugins.soextra.translate(ed, 'soextra.cursor_before', {tag: na}), 'class' : 'mcePath_cursorbefore', 'onclick' : 'return false;'}, '+');
                                     Event.add( cursorBefore, 'click', function(e){
                                         var p = DOM.create('p');
                                         p.innerHTML = ed.isIE ? '&nbsp;' : '<br />';
@@ -1244,7 +1244,7 @@
                                 }
                                 if ( !n.nextSibling || n.nextSibling.nodeName != 'P' )
                                 {
-                                    cursorAfter = DOM.create('a', {'href' : "javascript:;", 'onmousedown' : 'return false;', title : 'Place cursor after \'' + na + '\'', 'class' : 'mcePath_cursorafter', 'onclick' : 'return false;'}, '+');
+                                    cursorAfter = DOM.create('a', {'href' : "javascript:;", 'onmousedown' : 'return false;', title : ed.plugins.soextra.translate(ed, 'soextra.cursor_after', {tag: na}), 'class' : 'mcePath_cursorafter', 'onclick' : 'return false;'}, '+');
                                     Event.add( cursorAfter, 'click', function(e){
                                         var p = DOM.create('p');
                                         p.innerHTML = ed.isIE ? '&nbsp;' : '<br />';
