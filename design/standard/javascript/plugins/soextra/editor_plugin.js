@@ -150,7 +150,6 @@
 			var t = this, s = t.editor.settings, theme = t.editor.theme, empty;
 			
 			if ( empty = t.isAncestorEmptyElement(n) ) {
-				console.info(tinymce);
 				t.editor.selection.select(empty);
 			}
 			
@@ -345,7 +344,7 @@
 							each(t.fontClassSelectAncestors, function(otherItem){
 								if ( otherItem.node == item.node && otherItem.mi != mi )
 									otherItem.mi.setSelected(0);
-							})
+							});
 						};
 						if ( !!t.classStyles[item.value] )
 							o.style = 'display:inline;' + t.classStyles[item.value];
