@@ -115,7 +115,8 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
         }
         else
         {
-            return eZOEPopupUtils.insertTagCleanly( ed, 'div', '<p>' + selectedHtml + '<\/p>', {'type': 'custom' } );
+            return eZOEPopupUtils.insertHTMLCleanly( ed, '<div id="__mce_tmp" type="custom">' + '<p>' + selectedHtml + '<\/p><\/div>', '__mce_tmp' );
+            //return eZOEPopupUtils.insertTagCleanly( ed, 'div', '<p>' + selectedHtml + '<\/p>', {'type': 'custom' } );
         }
     },
     onTagGenerated:  function( el, ed, args )
