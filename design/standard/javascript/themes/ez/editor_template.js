@@ -1234,10 +1234,10 @@
                                 });
                                 if ( n.nodeName == 'DIV' || n.nodeName == 'UL' || n.nodeName == 'OL' || na == 'literal' )
                                 {
-                                    if ( !n.previousSibling || n.previousSibling.nodeName != 'P' )
+                                    if ( !n.previousSibling || n.previousSibling.nodeName != 'P' || ( n.nextSibling.nodeName == 'P' && n.nextSibling.innerHTML == '' ) )
                                     {
-                                        if ( !(n.previousSibling && ed.plugins.soextra.getNiceName(n) == 'block' && ed.plugins.soextra.getNiceName(n.previousSibling) == 'block') &&
-                                            !(n.previousSibling && ed.plugins.soextra.getNiceName(n) == 'column' && ed.plugins.soextra.getNiceName(n.previousSibling) == 'column') ) {
+                                        //if ( !(n.previousSibling && ed.plugins.soextra.getNiceName(n) == 'block' && ed.plugins.soextra.getNiceName(n.previousSibling) == 'block') &&
+                                        //    !(n.previousSibling && ed.plugins.soextra.getNiceName(n) == 'column' && ed.plugins.soextra.getNiceName(n.previousSibling) == 'column') ) {
                                             cursorBefore = DOM.create('a', {'href' : "javascript:;", 'onmousedown' : 'return false;', title : ed.plugins.soextra.translate(ed, 'soextra.cursor_before', {tag: na}), 'class' : 'mcePath_cursorbefore', 'onclick' : 'return false;'}, '+');
                                             Event.add( cursorBefore, 'click', function(e){
                                                 var p = DOM.create('p');
@@ -1245,12 +1245,12 @@
                                                 n.parentNode.insertBefore( p, n );
                                                 ed.selection.select(p);
                                             });
-                                        }
+                                        //}
                                     }
-                                    if ( !n.nextSibling || n.nextSibling.nodeName != 'P' )
+                                    if ( !n.nextSibling || n.nextSibling.nodeName != 'P' || ( n.nextSibling.nodeName == 'P' && n.nextSibling.innerHTML == '' ) )
                                     {
-                                        if ( !(n.nextSibling && ed.plugins.soextra.getNiceName(n) == 'block' && ed.plugins.soextra.getNiceName(n.nextSibling) == 'block') &&
-                                            !(n.nextSibling && ed.plugins.soextra.getNiceName(n) == 'column' && ed.plugins.soextra.getNiceName(n.nextSibling) == 'column') ) {
+                                        //if ( !(n.nextSibling && ed.plugins.soextra.getNiceName(n) == 'block' && ed.plugins.soextra.getNiceName(n.nextSibling) == 'block') &&
+                                        //    !(n.nextSibling && ed.plugins.soextra.getNiceName(n) == 'column' && ed.plugins.soextra.getNiceName(n.nextSibling) == 'column') ) {
                                             cursorAfter = DOM.create('a', {'href' : "javascript:;", 'onmousedown' : 'return false;', title : ed.plugins.soextra.translate(ed, 'soextra.cursor_after', {tag: na}), 'class' : 'mcePath_cursorafter', 'onclick' : 'return false;'}, '+');
                                             Event.add( cursorAfter, 'click', function(e){
                                                 var p = DOM.create('p');
@@ -1258,7 +1258,7 @@
                                                 DOM.insertAfter( p, n );
                                                 ed.selection.select(p);
                                             });
-                                        }
+                                        //}
                                     }
                                 }
                             }
@@ -1297,7 +1297,7 @@
         {
             if ( className ) className = ' ' + className + ' ';
             tag = ',' + tag.toUpperCase() + ',';
-            while ( n !== undefined && n.nodeName !== undefined && n.nodeName !== 'BODY' )
+            while ( n !== null && n !== undefined && n.nodeName !== undefined && n.nodeName !== 'BODY' )
             {
                 if ( checkElement && tag.indexOf( ',' + n.nodeName + ',' ) !== -1
                 && ( !className || (' ' + n.className + ' ').indexOf( className ) !== -1 ) 
