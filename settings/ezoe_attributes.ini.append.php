@@ -5,8 +5,7 @@
 [CustomAttribute_classification]
 Name=Class
 Default=
-Type=select
-Selection[]
+Type=class
 AllowEmpty=true
 
 [CustomAttribute_align]
@@ -160,32 +159,25 @@ AllowEmpty=true
 
 ## BLOCK #####################################################
 
+# for backwards compatability - now uses class 
 [CustomAttribute_block_size]
 Name=Size
 Title=
-Type=select
-Selection[]
-Selection[1of1]=1/1
-Selection[1of2]=1/2
-Selection[2of2]=2/2
-Selection[1of3]=1/3
-Selection[2of3]=2/3
-Selection[3of3]=3/3
-Selection[1of4]=1/4
-Selection[2of4]=2/4
-Selection[3of4]=3/4
-Selection[4of4]=4/4
-Selection[1of5]=1/5
-Selection[2of5]=2/5
-Selection[3of5]=3/5
-Selection[4of5]=4/5
-Selection[5of5]=5/5
+Type=hidden
 
 [CustomAttribute_block_last]
 Name=last block on row?
 Title=
 Type=checkbox
 Default=true
+
+[CustomAttribute_block_width]
+Name=Custom width
+Default=
+Type=csssize
+CssSizeType[]
+CssSizeType[px]=px
+AllowEmpty=true
 
 ## HTMLCODE #####################################################
 

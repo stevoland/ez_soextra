@@ -44,6 +44,23 @@ CustomAttributes[]=padding
 CustomAttributes[]=border_style
 CustomAttributes[]=border_size
 CustomAttributes[]=border_color
+AvailableClasses[]
+AvailableClasses[]=1of1
+AvailableClasses[]=1of2
+AvailableClasses[]=1of3
+AvailableClasses[]=2of3
+AvailableClasses[]=1of4
+AvailableClasses[]=3of4
+AvailableClasses[]=1of5
+AvailableClasses[]=2of5
+AvailableClasses[]=3of5
+AvailableClasses[]=4of5
+AvailableClasses[]=1of6
+AvailableClasses[]=5of6
+AvailableClasses[]=1of8
+AvailableClasses[]=3of8
+AvailableClasses[]=5of8
+AvailableClasses[]=7of8
 
 
 [header]

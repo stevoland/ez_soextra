@@ -188,7 +188,8 @@
 			t.numAncestorsWithClasses = 0;
 			
 			each(ancestors, function(n){
-				var xmlName = theme.__tagsToXml(n);
+				var xmlName = theme.__tagsToXml(n),
+					isCustom = false;
 				if ( inEmbed )
 					return;
 				if ( xmlName == "embed" || xmlName == "embed-inline"  )
@@ -203,7 +204,8 @@
 				}
 				else if ( xmlName == "custom" )
 				{
-					xmlName = theme.__getTagCommand(n).val;
+					isCustom = true;
+					xmlName = jQuery.trim(theme.__getTagCommand(n).val);
 					if ( n.nodeName == 'IMG' )
 						inEmptyCustom = true;
 				}
@@ -233,11 +235,11 @@
 					each(t.classesPerTag[xmlName], function(v) {
 						if ( first )
 						{
-							t.classSelectAncestors.push({node:n, val:'', title:'Default', xmlName:xmlName});
+							t.classSelectAncestors.push({node:n, val:'', title:'Default', xmlName:xmlName, isCustom: isCustom});
 							t.numAncestorsWithClasses++;
 							first = false;
 						}
-						t.classSelectAncestors.push({node:n, val:v, title:title, xmlName:xmlName});
+						t.classSelectAncestors.push({node:n, val:v, title:title, xmlName:xmlName, isCustom: isCustom});
 					});
 					
 					first = true;					
@@ -273,32 +275,79 @@
 						item.remove();
 					});
 					m.add({title : 'Style', 'class' : 'mceMenuItemTitle'}).setDisabled(1);
+
+					function deselectPreviousItems(mi, curItem, isDefault) {
+						each(t.classSelectAncestors, function(otherItem){
+							if ( otherItem.node == curItem.node && otherItem.mi != mi )
+								if ( isDefault && otherItem.val == '' )
+									otherItem.mi.setSelected(1);
+								else
+									otherItem.mi.setSelected(0);
+						});
+					}
 					
 					each(t.classSelectAncestors, function(item){
 						var title = 'Default',
 							val = '';
 						if ( item.val != '' )
 						{
-							var val = ( t.descriptionsPerTag[item.xmlName] && t.descriptionsPerTag[item.xmlName][item.val] ) ?
+							val = ( t.descriptionsPerTag[item.xmlName] && t.descriptionsPerTag[item.xmlName][item.val] ) ?
 								t.descriptionsPerTag[item.xmlName][item.val] : item.val;
-							var title = ( item.node == t.currentNode && t.numAncestorsWithClasses == 1 ) ? '' : item.title + ': ';
+							title = ( item.node == t.currentNode && t.numAncestorsWithClasses == 1 ) ? '' : item.title + ': ';
+						}
+						else
+						{
+							title = ( item.node == t.currentNode && t.numAncestorsWithClasses == 1 ) ? title : item.xmlName + ': ' + title;
 						}
 						
 						var o = {icon : 1}, mi;
-						o.onclick = function() {
-							if ( ed.dom.getAttrib(item.node, 'class') == item.val )
-							{
-								ed.dom.setAttrib(item.node, 'class', '');
-							}
-							else
-							{
-								ed.dom.setAttrib(item.node, 'class', item.val);
-							}
-						};
-						//if ( !!t.classStyles[item.value] )
-						//	item.title = '<span style=\'display:inline;' + t.classStyles[item.value] + '\'>' + item.title + '<span>';
+						if ( !item.isCustom )
+						{
+							o.onclick = function() {
+								if ( ed.dom.getAttrib(item.node, 'class') == item.val )
+								{
+									ed.dom.setAttrib(item.node, 'class', '');
+									if ( item.val != '' )
+										mi.setSelected(0);
+									deselectPreviousItems(mi, item, true);
+								}
+								else
+								{
+									ed.dom.setAttrib(item.node, 'class', item.val);
+									mi.setSelected(1);
+									deselectPreviousItems(mi, item);
+								}
+								ed.nodeChanged();
+							};
+						}
+						else
+						{
+							o.onclick = function() {
+								if ( t._getCustomAttribute(item.node, 'classification') == item.val )
+								{
+									t._updateCustomAttribute(item.node, 'classification', '');
+									if ( item.val != '' )
+										mi.setSelected(0);
+									deselectPreviousItems(mi, item);
+								}
+								else 
+								{
+									t._updateCustomAttribute(item.node, 'classification', item.val);
+									mi.setSelected(1);
+									deselectPreviousItems(mi, item);
+								}
+								ed.nodeChanged();
+							};
+						}
 						o.title = title + val;
 						mi = m.add(o);
+						item.mi = mi;
+						if ( !item.isCustom && ed.dom.getAttrib(item.node, 'class') == item.val )
+						{
+							mi.setSelected(1);
+						} else if ( item.isCustom && t._getCustomAttribute(item.node, 'classification') == item.val ) {
+							mi.setSelected(1);
+						}
 						
 						//index++;
 					});
@@ -345,6 +394,7 @@
 								if ( otherItem.node == item.node && otherItem.mi != mi )
 									otherItem.mi.setSelected(0);
 							});
+							ed.nodeChanged();
 						};
 						if ( !!t.classStyles[item.value] )
 							o.style = 'display:inline;' + t.classStyles[item.value];
@@ -554,6 +604,7 @@
 	            p.innerHTML = ed.isIE ? '&nbsp;' : '<br \/>';
 	            edBody.appendChild( p );
 	        }
+			ed.nodeChanged();
             return newNode;
         },
         
@@ -580,6 +631,7 @@
 					var newNode = t._insertCustomTag(data);
 					ed.dom.setAttrib(newNode, 'id', '');
 				}
+				ed.nodeChanged();
 			}
 			
 			t.customCreateButtons[n] = c;
@@ -602,6 +654,7 @@
 						each(m.items, function(item){
 							item.setSelected( (item == mi) ? 1 : 0);
 						});
+						ed.nodeChanged();
 					};
 
 					o.title = v;
@@ -658,50 +711,7 @@
 			return c;
 		},
 		
-		/*_createClassSelect : function(n) {
-            var t = this, ed = t.editor, cf = ed.controlManager, c = cf.createListBox('classselect', {
-                title : 'Class',
-                onselect : function(v) {
-					if ( v !== '' )
-					{
-						var node = t.classSelectAncestors[v].node,
-							val = t.classSelectAncestors[v].val;
-						if ( ed.dom.getAttrib(node, 'class') == val )
-						{
-							ed.dom.setAttrib(node, 'class', '');
-						}
-						else
-						{
-							ed.dom.setAttrib(node, 'class', val);
-						}
-					}
-					c.selectByIndex(-1);
-                }
-            });
-			
-			
-
-            if ( c ) {
-				c.settings.ezPlugin = true;
-                each(ed.getParam('soestyle_classes_per_tag', '', 'hash'), function(v, k) {
-                    if (v)
-					{
-						var vals = v.split(',');
-						t.classesPerTag[k] = [];
-						each(vals, function(v){
-							// This check is just here for backwards compatability with an old extension
-							if ( ',xCenter,xLeft,xRight,xJustify,'.indexOf(v) < 0 )
-								t.classesPerTag[k].push(v);
-						});
-					}
-                });
-            }
-			t.classSelect = c;
-
-            return c;
-        },*/
-        
-        isAncestorEmptyElement : function(n) {
+		isAncestorEmptyElement : function(n) {
         	while ( n.parentNode && n.parentNode.nodeName != 'body' ) {
         		n = n.parentNode;
         		if ( this.isEmptyElement(n) ) {

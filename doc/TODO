@@ -1,3 +1,4 @@
+- Add cssclass attribute to allow multiple classes and include in class select control
 - Package content objects with functional test cases
 - Test Grade A browsers -IE
 - Test IE8

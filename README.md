@@ -253,7 +253,7 @@ Simple columns. Only one row and pixel widths.
 ### Layout blocks _(Very experimental!)_ ###
 
 Editors can produce complex WYSIWYGish layouts in an xmlarea.
-Based on [OOCSS](http://oocss.org)
+Based on [OOCSS](http://oocss.org) (Now uses YUI3 grids)
 Pure CSS layouts by default can be replaced automatically with tables in email newsletters etc.
 
 Uses 'block' ('unit' in OOCSS) and 'newline' ('line' in OOCSS) custom tags.
@@ -268,8 +268,25 @@ Newline should be added after a line of blocks but is optional if there is no co
 	
 	[block]
 	CustomAttributes[]
-	CustomAttributes[]=size
+	CustomAttributes[]=classification
 	CustomAttributes[]=last
+	AvailableClasses[]
+	AvailableClasses[]=1of1
+	AvailableClasses[]=1of2
+	AvailableClasses[]=1of3
+	AvailableClasses[]=2of3
+	AvailableClasses[]=1of4
+	AvailableClasses[]=3of4
+	AvailableClasses[]=1of5
+	AvailableClasses[]=2of5
+	AvailableClasses[]=3of5
+	AvailableClasses[]=4of5
+	AvailableClasses[]=1of6
+	AvailableClasses[]=5of6
+	AvailableClasses[]=1of8
+	AvailableClasses[]=3of8
+	AvailableClasses[]=5of8
+	AvailableClasses[]=7of8
 
 	#soextra.ini
 	[sOExtraSettings]

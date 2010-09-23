@@ -77,7 +77,7 @@ class sOEAttributesOperator
                     if ( isset($attributes['attr_height']) ) {
                         $operatorValue .= 'height:' . $attributes['attr_height'] . 'px;';
                     }
-                } else {
+                } else if ( $tagName != 'block' ) {
                     if ( in_array('width', $customAttributes) && isset($attributes['width']) ) {
                         $operatorValue .= 'width:' . $attributes['width'] . ';';
                     }
@@ -147,7 +147,7 @@ class sOEAttributesOperator
             } break;
             case 'soe_classes':
             {
-                if ( isset($attributes['classification']) ) {
+                if ( $tagName != 'block' && isset($attributes['classification']) ) {
                     $operatorValue .= $attributes['classification'] . ' ';
                 }
                 if ( isset($attributes['align']) ) {
@@ -163,13 +163,22 @@ class sOEAttributesOperator
                 if ( $tagName == 'embed-inline' && isset($attributes['object_parameters']) ) {
                     $align = $attributes['object_parameters']['align'];
                     if ( $align ) {
-                        $operatorValue .= 'object-' . $align . '';
+                        $operatorValue .= 'object-' . $align . ' ';
                     }
                 }
                 if ( $tagName == 'htmlcode' ) {
                     $operatorValue .= ( isset($attributes['display_inline']) ) ? 'htmlcode-inline ' : 'htmlcode ';
                     if ( !isset($attributes['in_oe']) && isset($attributes['align']) ) {
                         $operatorValue .= 'object-' . $attributes['align'];
+                    }
+                }
+                if ( $tagName == 'block' ) {
+                    if ( isset($attributes['width']) || ( !isset($attributes['size']) && !isset($attributes['classification']) ) ) {
+                        $operatorValue .= 'yui3-u ';
+                    } else if ( isset($attributes['classification']) ) {
+                        $operatorValue .= 'yui3-u-' . join('-', explode('of', $attributes['classification']));
+                    } else if ( isset($attributes['size']) ) {
+                        $operatorValue .= 'yui3-u-' . join('-', explode('of', $attributes['size']));
                     }
                 }
             } break;

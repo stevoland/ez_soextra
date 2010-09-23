@@ -1187,6 +1187,9 @@
                             naa = naa + '.' + v.replace(' ', '.');
                         }
                     }
+                    if ( ed.plugins.soextra._getCustomAttribute(n, 'classification') ) {
+                        naa = naa + '.' + ed.plugins.soextra._getCustomAttribute(n, 'classification').replace(' ', '.');
+                    }
 
                     naa = naa.replace(/(html:)/g, '');
                     na = {name : naa, node : n, title : ti};
