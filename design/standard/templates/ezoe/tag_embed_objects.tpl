@@ -154,7 +154,7 @@ function loadEmbedPreview( )
     var postData = jQuery('#embed_attributes input, #embed_attributes select').serialize();
     // stevo
 	var tag = ez.$('embed_inline_source').el.checked ? 'embed-inline' : 'embed';
-	var args = eZOEPopupUtils.getCustomAttributeArgs(tag);
+	var args = eZOEPopupUtils.getCustomAttributeArgs(tag + '_customattributes');
 	args.customattributes = args.customattributes.split('attribute_separation');
 	var keyVal;
 	for ( i=0; i<args.customattributes.length; i++ )
@@ -219,8 +219,8 @@ function loadEmbedPreview( )
                                            'size', $default_size )
         }
 
-        {include uri="design:ezoe/customattributes.tpl" tag_name="embed" hide=$tag_name|ne('embed') custom_attributes=$custom_attributes.embed}
-        {include uri="design:ezoe/customattributes.tpl" tag_name="embed-inline" hide=$tag_name|ne('embed-inline') custom_attributes=$custom_attributes.embed-inline}
+        {include uri="design:ezoe/customattributes.tpl" tag_name="embed" hide=$tag_name|ne('embed') custom_attributes=$custom_attributes.embed embedded_class=$embed_object.class_identifier}
+        {include uri="design:ezoe/customattributes.tpl" tag_name="embed-inline" hide=$tag_name|ne('embed-inline') custom_attributes=$custom_attributes.embed-inline embedded_class=$embed_object.class_identifier}
 
         <div class="block"> 
             <div class="left">

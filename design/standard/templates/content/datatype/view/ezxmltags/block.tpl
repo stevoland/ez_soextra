@@ -3,7 +3,7 @@
 	$classes=''|soe_classes('block')}
 {if and(is_unset($#use_inline_styles), is_unset($use_inline_styles))}
 {if layout_line_start()|eq(true())}<div class="line yui3-g">{/if}
-	<div class="unit size{$size}{if $last|eq('true')} lastUnit{/if}{if $classes|trim|ne('')} {$classes|wash}{/if}"{if or($width|trim|ne(''),$height|trim|ne('')) } style="{if $width|trim|ne('')}width:{$width|wash}{/if}{if $height|trim|ne('')}height:{$height|wash}{/if}"{/if}><div class="content"{if $style|trim|ne('')} style="{$style}"{/if}>{$content}</div></div>
+	<div class="unit size{$size}{if $last|eq('true')} lastUnit{/if} yui3-u {if $classes|trim|ne('')} {$classes|wash}{/if}"{if or(and(is_set($width), $width|trim|ne('')),and(is_set($height), $height|trim|ne(''))) } style="{if and(is_set($width), $width|trim|ne(''))}width:{$width|wash}{/if}{if and(is_set($height), $height|trim|ne(''))}height:{$height|wash}{/if}"{/if}><div class="content"{if $style|trim|ne('')} style="{$style}"{/if}>{$content}</div></div>
 	{if $last|eq('true')}{if layout_line_end()|eq(true)}</div>{/if}{/if}
 {else}
 	{if layout_line_start()|eq(true())}<table border="0" cellpaddding="0" cellspacing="0" width="100%"><tr>{/if}

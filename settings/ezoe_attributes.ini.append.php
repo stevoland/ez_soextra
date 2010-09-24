@@ -98,6 +98,14 @@ CssSizeType[px]=px
 CssSizeType[%]=%
 AllowEmpty=true
 
+[CustomAttribute_height]
+Name=Height
+Default=
+Type=csssize
+CssSizeType[]
+CssSizeType[px]=px
+AllowEmpty=true
+
 [CustomAttribute_border_style]
 Name=Border style
 Default=

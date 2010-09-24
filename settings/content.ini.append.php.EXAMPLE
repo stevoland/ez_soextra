@@ -88,6 +88,7 @@ CustomAttributes[]=width
 CustomAttributes[]=border_style
 CustomAttributes[]=border_size
 CustomAttributes[]=border_color
+AllowEmpty=true
 
 [literal]
 CustomAttributes[]=fontsize
