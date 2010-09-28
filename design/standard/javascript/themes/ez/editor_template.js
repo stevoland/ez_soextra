@@ -1237,7 +1237,7 @@
                                 });
                                 if ( n.nodeName == 'DIV' || n.nodeName == 'UL' || n.nodeName == 'OL' || na == 'literal' )
                                 {
-                                    if ( !n.previousSibling || n.previousSibling.nodeName != 'P' || ( n.nextSibling.nodeName == 'P' && n.nextSibling.innerHTML == '' ) )
+                                    if ( !n.previousSibling || n.previousSibling.nodeName != 'P' || ( n.previousSibling.nodeName == 'P' && n.previousSibling.innerHTML == '' ) )
                                     {
                                         //if ( !(n.previousSibling && ed.plugins.soextra.getNiceName(n) == 'block' && ed.plugins.soextra.getNiceName(n.previousSibling) == 'block') &&
                                         //    !(n.previousSibling && ed.plugins.soextra.getNiceName(n) == 'column' && ed.plugins.soextra.getNiceName(n.previousSibling) == 'column') ) {

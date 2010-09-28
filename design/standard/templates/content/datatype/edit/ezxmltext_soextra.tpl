@@ -23,10 +23,10 @@
         {def $descriptions=hash()}
         soestyle_class_descriptions_per_tag : {ldelim}
             {foreach $all_tags as $tag}
-                {set $classes=cond( ezini_hasvariable($tag, 'AvailableClasses', 'content.ini',,true()  ), ezini($tag, 'AvailableClasses', 'content.ini',,true() ), hash() ) }
+                {set $classes=cond( ezini_hasvariable($tag, 'AvailableClasses', 'content.ini',,true()  ), ezini($tag, 'AvailableClasses', 'content.ini',,true() ), array() ) }
                 {set $descriptions=cond( ezini_hasvariable($tag, 'ClassDescription', 'content.ini',,true()  ), ezini($tag, 'ClassDescription', 'content.ini',,true() ), hash() ) }
-                "{$tag}": {ldelim}{foreach $classes as $class}"{$class}": "{if is_set($descriptions[$class])}{$descriptions[$class]|wash}{/if}"{delimiter},
-                {/delimiter}{/foreach}{rdelim}{delimiter},
+                "{$tag}": {ldelim}{if $classes|count}{foreach $classes as $class}"{$class}": "{if is_set($descriptions[$class])}{$descriptions[$class]|wash}{/if}"{delimiter},
+                {/delimiter}{/foreach}{/if}{rdelim}{delimiter},
                 {/delimiter}
             {/foreach}
         {rdelim},
