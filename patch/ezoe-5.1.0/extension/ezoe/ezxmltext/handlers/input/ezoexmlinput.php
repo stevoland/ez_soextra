@@ -1877,7 +1877,9 @@ class eZOEXMLInput extends eZXMLInputHandler
         elseif ( is_numeric( $nodeID ) )
         {
             $node      = eZContentObjectTreeNode::fetch( $nodeID );
-            $object    = $node->object();
+            if ( is_object($node) ) {
+                $object    = $node->object();
+            }
         }
         
         if ( $object instanceof eZContentObject )
