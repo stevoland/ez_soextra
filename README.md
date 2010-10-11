@@ -16,7 +16,7 @@ Expert consultation available.
 
 ## Basic Installation ##
 
-1. Clone or download the required branch ( oe5.0.4 for ez4.2, oe5.1.0 for ez4.3 ) to extension/_soextra
+1. Clone or download the required branch ( oe5.1.0 for ez4.3, oe5.2.0 for ez4.4 (oe5.0.4 is unsupported) ) to extension/_soextra
 2. Activate the extension manually or through the admin.
 3. Edit site.ini.append.php and move ActiveExtensions[]=_soextra to ABOVE ActiveExtensions[]=ezoe
 4. The ezoe.ini.append.php and ezoe_attribute.ini.append.php files in _soextra must override those in ezoe. Because ezoe comes with
