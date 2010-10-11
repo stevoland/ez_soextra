@@ -5,25 +5,25 @@
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ Online Editor extension for eZ Publish
-// SOFTWARE RELEASE: 4.3.0
+// SOFTWARE RELEASE: 5.0
 // COPYRIGHT NOTICE: Copyright (C) 1999-2010 eZ Systems AS
 // SOFTWARE LICENSE: GNU General Public License v2.0
 // NOTICE: >
 //   This program is free software; you can redistribute it and/or
 //   modify it under the terms of version 2.0  of the GNU General
 //   Public License as published by the Free Software Foundation.
-// 
+//
 //   This program is distributed in the hope that it will be useful,
 //   but WITHOUT ANY WARRANTY; without even the implied warranty of
 //   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //   GNU General Public License for more details.
-// 
+//
 //   You should have received a copy of version 2.0 of the GNU General
 //   Public License along with this program; if not, write to the Free
 //   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //   MA 02110-1301, USA.
-// 
-// 
+//
+//
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
@@ -44,11 +44,11 @@ class eZOEInputParser extends eZXMLInputParser
 {
     /**
      * Used to strip out ezoe, tinymce & browser specific classes
-     */    
-     const HTML_CLASS_REGEX = "/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/i";
+     */
+     const HTML_CLASS_REGEX = "/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|ezoeItem\w+|mceVisualAid)/i";
 
     /**
-     * Maps input tags (html) to a output tag or a hander to 
+     * Maps input tags (html) to a output tag or a hander to
      * decide what kind of ezxml tag to use.
      *
      * @var array $InputTags
@@ -93,38 +93,42 @@ class eZOEInputParser extends eZXMLInputParser
     );
 
     /**
-     * Maps output tags (ezxml) to varius handlers at different stages 
+     * Maps output tags (ezxml) to varius handlers at different stages
      * decide what kind of ezxml tag to use.
-     * 
+     *
      * @var array $OutputTags
      */
     public $OutputTags = array(
         'section'   => array(),
 
-        'embed'     => array( 'structHandler' => 'appendLineParagraph',
+        'embed'     => array( 'initHandler'    => 'transformStyles',
+                              'structHandler'  => 'appendLineParagraph',
                               'publishHandler' => 'publishHandlerEmbed',
-                              'attributes' => array( 'alt' => 'size',
-                                                     'html_id' => 'xhtml:id' ) ),
+                              'attributes'     => array( 'alt' => 'size',
+                                                         'html_id' => 'xhtml:id' ) ),
 
-        'embed-inline' => array( 'structHandler' => 'appendLineParagraph',
-                              'publishHandler' => 'publishHandlerEmbed',
-                              'attributes' => array( 'alt' => 'size',
-                                                     'html_id' => 'xhtml:id' ) ),
+        'embed-inline' => array( 'initHandler'    => 'transformStyles',
+                                 'structHandler'  => 'appendLineParagraph',
+                                 'publishHandler' => 'publishHandlerEmbed',
+                                 'attributes'     => array( 'alt' => 'size',
+                                                            'html_id' => 'xhtml:id' ) ),
 
-        'table'     => array( 'structHandler' => 'appendParagraph',
-                              'publishHandler' => 'publishHandlerTable',
-                              'attributes' => array( 'border' => false,
-                                                     'ezborder' => 'border' ) ),
+        'table'     => array( 'initHandler'   => 'transformStyles',
+                              'structHandler' => 'appendParagraph',
+                              'attributes'    => array( 'border' => false,
+                                                        'ezborder' => 'border' ) ),
 
         'tr'        => array(),
 
-        'td'        => array( 'attributes' => array( 'width' => 'xhtml:width',
-                                                     'colspan' => 'xhtml:colspan',
-                                                     'rowspan' => 'xhtml:rowspan' ) ),
+        'td'        => array( 'initHandler' => 'transformStyles',
+                              'attributes'  => array( 'width' => 'xhtml:width',
+                                                      'colspan' => 'xhtml:colspan',
+                                                      'rowspan' => 'xhtml:rowspan' ) ),
 
-        'th'        => array( 'attributes' => array( 'width' => 'xhtml:width',
-                                                     'colspan' => 'xhtml:colspan',
-                                                     'rowspan' => 'xhtml:rowspan' ) ),
+        'th'        => array( 'initHandler' => 'transformStyles',
+                              'attributes'  => array( 'width' => 'xhtml:width',
+                                                      'colspan' => 'xhtml:colspan',
+                                                      'rowspan' => 'xhtml:rowspan' ) ),
 
         'ol'        => array( 'structHandler' => 'structHandlerLists' ),
 
@@ -132,38 +136,38 @@ class eZOEInputParser extends eZXMLInputParser
 
         'li'        => array( 'autoCloseOn' => array( 'li' ) ),
 
-        'header'    => array( 'initHandler' => 'initHandlerHeader',
-                              'autoCloseOn' => array( 'paragraph' ),
+        'header'    => array( 'initHandler'   => 'initHandlerHeader',
+                              'autoCloseOn'   => array( 'paragraph' ),
                               'structHandler' => 'structHandlerHeader' ),
 
         'paragraph' => array( 'parsingHandler' => 'parsingHandlerParagraph',
-                              'autoCloseOn' => array( 'paragraph' ),
-                              'structHandler' => 'structHandlerParagraph' ),
+                              'autoCloseOn'    => array( 'paragraph' ),
+                              'initHandler'    => 'transformStyles',
+                              'structHandler'  => 'structHandlerParagraph' ),
 
         'line'      => array(),
 
         'br'        => array( 'parsingHandler' => 'breakInlineFlow',
-                              'structHandler' => 'structHandlerBr',
-                              'attributes' => false ),
+                              'structHandler'  => 'structHandlerBr',
+                              'attributes'     => false ),
 
         'literal'   => array( 'parsingHandler' => 'parsingHandlerLiteral',
-                              'structHandler' => 'appendParagraph',
-                              'attributes' => array( 'class' => 'class' ) ),
+                              'structHandler'  => 'appendParagraph',
+                              'attributes'     => array( 'class' => 'class' ) ),
 
         'strong'    => array( 'structHandler' => 'appendLineParagraph' ),
 
         'emphasize' => array( 'structHandler' => 'appendLineParagraph' ),
 
-        'link'      => array( 'structHandler' => 'appendLineParagraph',
+        'link'      => array( 'structHandler'  => 'appendLineParagraph',
                               'publishHandler' => 'publishHandlerLink',
-                              'attributes' => array( 'title' => 'xhtml:title',
-                                                     'id' => 'xhtml:id' ) ),
+                              'attributes'     => array( 'title' => 'xhtml:title',
+                                                         'id' => 'xhtml:id' ) ),
 
         'anchor'    => array( 'structHandler' => 'appendLineParagraph' ),
 
-        'custom'    => array( 'initHandler' => 'initHandlerCustom',
-                              'structHandler' => 'structHandlerCustom',
-                              'attributes' => array( 'title' => 'name' ) ),
+        'custom'    => array( 'initHandler'   => 'initHandlerCustom',
+                              'structHandler' => 'structHandlerCustom' ),
 
         '#text'     => array( 'structHandler' => 'structHandlerText' )
     );
@@ -175,7 +179,7 @@ class eZOEInputParser extends eZXMLInputParser
      * @param int $validateErrorLevel
      * @param int $detectErrorLevel
      * @param bool $parseLineBreaks flag if line breaks should be given meaning or not
-     * @param bool $removeDefaultAttrs singal if attributes of default value should not be saved.
+     * @param bool $removeDefaultAttrs signal if attributes of default value should not be saved.
      */
     function eZOEInputParser( $validateErrorLevel = eZXMLInputParser::ERROR_NONE,
                               $detectErrorLevel = eZXMLInputParser::ERROR_NONE,
@@ -190,6 +194,20 @@ class eZOEInputParser extends eZXMLInputParser
         $ini = eZINI::instance( 'content.ini' );
         if ( $ini->hasVariable( 'header', 'AnchorAsAttribute' ) )
             $this->anchorAsAttribute = $ini->variable( 'header', 'AnchorAsAttribute' ) !== 'disabled';
+    }
+
+    /**
+     * Process html text and transform it to xml.
+     *
+     * @param string $text
+     * @param bool $createRootNode
+     * @return false|DOMDocument
+    */
+    public function process( $text, $createRootNode = true )
+    {
+        $text = preg_replace( '#<!--.*?-->#s', '', $text ); // remove HTML comments
+        $text = str_replace( array("\xC2\xA0", '&#160;'), '&nbsp;', $text ); // replace Unicode non breaking space with html
+        return parent::process( $text, $createRootNode );
     }
 
      /**
@@ -462,7 +480,7 @@ class eZOEInputParser extends eZXMLInputParser
             $parent = $element->parentNode;
             $parent->removeChild( $element );
         }
-        
+
         return true;
     }
 
@@ -544,11 +562,11 @@ class eZOEInputParser extends eZXMLInputParser
      */
     function initHandlerCustom( $element, &$params )
     {
-        $ret = null;        
         if ( $this->XMLSchema->isInline( $element ) )
-            return $ret;
-        
-        return $ret;
+            return null;
+
+        self::elementStylesToAttribute( $element );
+        return null;
     }
 
      /**
@@ -561,8 +579,6 @@ class eZOEInputParser extends eZXMLInputParser
      */
     function initHandlerHeader( $element, &$params )
     {
-        $ret = null;
-
         if ( $this->anchorAsAttribute )
         {
             $anchorElement = $element->firstChild;
@@ -572,8 +588,22 @@ class eZOEInputParser extends eZXMLInputParser
                 $anchorElement = $element->removeChild( $anchorElement );
             }
         }
+        self::elementStylesToAttribute( $element );
+        return null;
+    }
 
-        return $ret;
+     /**
+     * transformStyles (init handler, pass 2 before childre tags)
+     * tryes to convert css styles to attributes.
+     *
+     * @param DOMElement $element
+     * @param array $params
+     * @return null|array changes structure if it contains 'result' key
+     */
+    function transformStyles( $element, &$params )
+    {
+        self::elementStylesToAttribute( $element );
+        return null;
     }
 
      /**
@@ -908,7 +938,7 @@ class eZOEInputParser extends eZXMLInputParser
                     $current->appendChild( $elementToMove );
                     $elementToMove = $next;
 
-                    if ( !$elementToMove || 
+                    if ( !$elementToMove ||
                          ( $elementToMove->nodeName === 'header' &&
                          $elementToMove->getAttribute( 'level' ) <= $level ) )
                         break;
@@ -1059,12 +1089,11 @@ class eZOEInputParser extends eZXMLInputParser
      *
      * @param DOMElement $element
      * @param array $param parameters for xml element
-     * @return array changes structure if it contains 'result' key
+     * @return null|array changes structure if it contains 'result' key
      */
     function publishHandlerLink( $element, &$params )
     {
-        $ret = null;
-
+        $ret  = null;
         $href = $element->getAttribute( 'href' );
         if ( $href )
         {
@@ -1088,7 +1117,7 @@ class eZOEInputParser extends eZXMLInputParser
              * rfc2396: ^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?
              * ezdhtml: "@^eznode://([^/#]+)/?(#[^/]*)?/?@i"
              */
-            elseif ( strpos( $href, 'eznode' ) === 0 
+            elseif ( strpos( $href, 'eznode' ) === 0
                   && preg_match( "@^eznode://([^#]+)(#.+)?@i", $href, $matches ) )
             {
                 $nodePath = trim( $matches[1], '/' );
@@ -1150,7 +1179,7 @@ class eZOEInputParser extends eZXMLInputParser
                 if ( $url )
                 {
                     // Protection from XSS attack
-                    if ( strpos( $url, 'script' ) !== false && preg_match( "/^(java|vb)script:.*/i" , $url ) )
+                    if ( preg_match( "/^(java|vb)script:.*/i" , $url ) )
                     {
                         $this->isInputValid = false;
                         $this->Messages[] = "Using scripts in links is not allowed, '$url' has been removed";
@@ -1159,9 +1188,8 @@ class eZOEInputParser extends eZXMLInputParser
                     }
 
                     // Check mail address validity
-                    if ( strpos( $url, 'mailto' ) === 0 && preg_match( "/^mailto:(.*)/i" , $url, $mailAddr ) )
+                    if ( preg_match( "/^mailto:(.*)/i" , $url, $mailAddr ) )
                     {
-                        //include_once( 'lib/ezutils/classes/ezmail.php' );
                         if ( !eZMail::validate( $mailAddr[1] ) )
                         {
                             $this->isInputValid = false;
@@ -1176,8 +1204,7 @@ class eZOEInputParser extends eZXMLInputParser
 
                     }
                     // Store urlID instead of href
-                    $url = str_replace(array('&amp;', '%28', '%29'), array('&', '(', ')'), $url );
-
+                    $url   = str_replace(array('&amp;', '%28', '%29'), array('&', '(', ')'), $url );
                     $urlID = eZURL::registerURL( $url );
 
                     if ( $urlID )
@@ -1200,53 +1227,16 @@ class eZOEInputParser extends eZXMLInputParser
     }
 
      /**
-     * publishHandlerTable (Publish handler, pass 2 after schema validation)
-     * Publish handler for table element, tryes to convert css stlyes to attributes.
-     *
-     * @param DOMElement $element
-     * @param array $param parameters for xml element
-     * @return array changes structure if it contains 'result' key
-     */
-    function publishHandlerTable( $element, &$params )
-    {
-        $ret = null;
-
-        // Trying to convert CSS rules to XML attributes
-        // (for the case of pasting from external source)
-
-        $style = $element->getAttribute( 'style' );
-        if ( $style )
-        {
-            $styleArray = explode( ';', $style );
-            foreach( $styleArray as $styleString )
-            {
-                if ( !$styleString )
-                    continue;
-
-                list( $styleName, $styleValue ) = explode( ':', $styleString );
-                $styleName = trim( $styleName );
-                $styleValue = trim( $styleValue );
-                if ( $styleName )
-                {
-                    $element->setAttribute( $styleName, $styleValue );
-                }
-            }
-        }
-        return $ret;
-    }
-
-     /**
      * publishHandlerEmbed (Publish handler, pass 2 after schema validation)
-     * Publish handler for embed element, convert id to [object|node]_id parameter.
-     * And fixes align=middle value (if embed was image)
+     * Publish handler for embed element, convert id to [object|node]_id parameter,
+     * fixes align=middle value (if embed was image) and tries to map css to attributes
      *
      * @param DOMElement $element
      * @param array $param parameters for xml element
-     * @return array changes structure if it contains 'result' key
+     * @return null|array changes structure if it contains 'result' key
      */
     function publishHandlerEmbed( $element, &$params )
     {
-        $ret = null;
         $ID = $element->getAttribute( 'id' );
         if ( $ID )
         {
@@ -1285,8 +1275,7 @@ class eZOEInputParser extends eZXMLInputParser
         {
             $element->setAttribute( 'align', 'center' );
         }
-        //$this->convertCustomAttributes( $element );
-        return $ret;
+        return null;
     }
 
      /**
@@ -1300,7 +1289,6 @@ class eZOEInputParser extends eZXMLInputParser
     function processAttributesBySchema( $element )
     {
         // custom attributes conversion
-        // stevo - override custom attribute align with normal attribute align
         $attr = $element->getAttribute( 'customattributes' );
         $align = $element->getAttribute( 'align' );
         if ( $attr )
@@ -1345,6 +1333,12 @@ class eZOEInputParser extends eZXMLInputParser
         return $this->linkedObjectIDArray;
     }
 
+     /**
+     * Get list over currently deleted embeded objects, nodes and (optionally) objects in trash
+     *
+     * @param bool $includeTrash
+     * @return array
+     */
     function getDeletedEmbedIDArray( $includeTrash = false )
     {
         $arr = array();
@@ -1356,7 +1350,13 @@ class eZOEInputParser extends eZXMLInputParser
             $arr['trash'] = $this->thrashedEmbeddedObjectIDArray;
         return $arr;
     }
-    
+
+     /**
+     * Check if a custom tag is enabled
+     *
+     * @param string $name
+     * @return bool
+     */
     public static function customTagIsEnabled( $name )
     {
         if ( self::$customTagList === null )
@@ -1367,13 +1367,43 @@ class eZOEInputParser extends eZXMLInputParser
         return in_array( $name, self::$customTagList );
     }
 
+     /**
+     * Trying to convert CSS rules to XML attributes
+     * (for the case of pasting from external source)
+     *
+     * @param DOMElement $element
+     */
+    protected static function elementStylesToAttribute( DOMElement $element )
+    {
+        $styleString = $element->getAttribute( 'style' );
+        if ( $styleString )
+        {
+            $styleArray = explode( ';', $styleString );
+            foreach( $styleArray as $style )
+            {
+                if ( !$style )
+                    continue;
+
+                list( $name, $value ) = explode( ':', $style );
+                $name  = trim( $name );
+                $value = trim( $value );
+
+                if ( $name === 'float' || $name === 'text-align' )
+                    $name = 'align';
+
+                if ( $name )
+                    $element->setAttribute( $name, $value );
+            }
+        }
+    }
+
     protected $urlIDArray = array();
     protected $linkedObjectIDArray = array();
     protected $embeddedObjectIDArray = array();
     protected $deletedEmbeddedNodeIDArray = array();
     protected $deletedEmbeddedObjectIDArray = array();
     protected $thrashedEmbeddedObjectIDArray = array();
-    
+
 
     protected $anchorAsAttribute = false;
 

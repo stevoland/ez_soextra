@@ -21,7 +21,6 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     tagName: 'embed',
     form: 'EditForm',
     cancelButton: 'CancelButton',
-    cssClass: '',
     onInitDone: function( el, tag, ed )
     {        
         var selectors = ez.$('embed_size_source', 'embed_align_source', 'embed_class_source', 'embed_view_source', 'embed_inline_source');
@@ -101,6 +100,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
            args['height'] = height || imageSizeObj['height'];
         }
         ed.dom.setAttribs( el, args );
+        return el;
     }
 }));
 
@@ -124,7 +124,7 @@ function inlineSelectorChange( e, el )
     if ( editorEl )
     {
         var viewValue = editorEl.getAttribute('view');
-        var classValue = jQuery.trim( editorEl.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '') );
+        var classValue = jQuery.trim( editorEl.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|ezoeItem\w+|mceVisualAid)/g, '') );
     }
 
     if ( viewValue && viewListData[ tag ].join !== undefined && (' ' + viewListData[ tag ].join(' ') + ' ').indexOf( ' ' + viewValue + ' ' ) !== -1 )
@@ -174,15 +174,16 @@ function loadImageSize( e, el )
     else
     {
         var url = eds.ez_extension_url + '/load/' + eZOEPopupUtils.embedObject['contentobject_id'];
-        eZOEPopupUtils.ajax.load( url, 'imagePreGenerateSizes=' + size, function(r){
-            ez.script( 'eZOEPopupUtils.ajaxLoadResponse=' + r.responseText );
-            if ( eZOEPopupUtils.ajaxLoadResponse )
+        jQuery.post( url, 'imagePreGenerateSizes=' + size, function( data )
+        //jQuery.ez( 'ezjscnode::load::ezobject_' + eZOEPopupUtils.embedObject['contentobject_id'] + '::0::' + size, 0, function( data )
+        {
+            if ( data )
             {
                 var size = jQuery('#embed_size_source').val(), imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
-                eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ] = eZOEPopupUtils.ajaxLoadResponse['data_map'][ imageAttributes[0] ]['content'][ size ];
+                eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ] = data['data_map'][ imageAttributes[0] ]['content'][ size ];
                 previewImageNode.attr( 'src', eds.ez_root_url + eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ]['url'] );
             }
-        });
+        }, 'json');
     }
 }
 
@@ -240,9 +241,9 @@ function loadImageSize( e, el )
                                            'size', $default_size )
         }
 
-        {include uri="design:ezoe/customattributes.tpl" tag_name="embed" hide=$tag_name|ne('embed') custom_attributes=$custom_attributes.embed embedded_class=$embed_object.class_identifier}
-        {include uri="design:ezoe/customattributes.tpl" tag_name="embed-inline" hide=$tag_name|ne('embed-inline') custom_attributes=$custom_attributes.embed-inline embedded_class=$embed_object.class_identifier}
-
+        {include uri="design:ezoe/customattributes.tpl" tag_name="embed" hide=$tag_name|ne('embed') custom_attributes=$custom_attributes.embed}
+        {include uri="design:ezoe/customattributes.tpl" tag_name="embed-inline" hide=$tag_name|ne('embed-inline') custom_attributes=$custom_attributes.embed-inline}
+    
         <div class="block"> 
             <div class="left">
                 <input id="SaveButton" name="SaveButton" type="submit" value="{'OK'|i18n('design/standard/ezoe')}" />
