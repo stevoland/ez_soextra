@@ -16,41 +16,30 @@ var defaultEmbedSize = '{$default_size}', selectedSize = defaultEmbedSize, conte
 var viewListData = {$view_list}, classListData = {$class_list}, attributeDefaults = {$attribute_defaults}, selectedTagName = '', compatibilityMode = '{$compatibility_mode}';
 
 {literal}
-var el = tinyMCEPopup.getWindowArg('selected_node'),
-	tag = 'embed';
-if ( el && el.nodeName )
-{
-	if ( el.nodeName == 'SPAN' )
-		tag = 'embed-inline';
-}
 
 tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     tagName: 'embed',
-	selectedTag: tag,
     form: 'EditForm',
     cancelButton: 'CancelButton',
-    cssClass: compatibilityMode !== 'enabled' ? 'mceNonEditable mceItemContentTypeObjects' : '',
+    cssClass: compatibilityMode !== 'enabled' ? 'ezoeItemNonEditable ezoeItemContentTypeObjects' : '',
     onInitDone: function( el, tag, ed )
     {        
-        var selectors = ez.$('embed_size_source', 'embed_align_source', 'embed_class_source', 'embed_view_source', 'embed_inline_source', 'embed_id_source');
-		if ( tag == 'embed-inline' )
-			selectors[4].el.checked = true;
-        //var tag = selectors[4].el.checked ? 'embed-inline' : 'embed',
-		var def = attributeDefaults[ tag ];
+        var selectors = ez.$('embed_size_source', 'embed_align_source', 'embed_class_source', 'embed_view_source', 'embed_inline_source');
+        var tag = selectors[4].el.checked ? 'embed-inline' : 'embed', def = attributeDefaults[ tag ]
         inlineSelectorChange.call( selectors[4], false, selectors[4].el  );
         selectors[4].addEvent('click', inlineSelectorChange );
         var align = el ? el.getAttribute('align') || '' : def['align']  || '';
         if ( align === 'center' ) align = 'middle';
 
-        ez.$('embed_preview').addClass('object_preview float-break').setStyles( ez.ie56 ? {'margin': '0 5px 5px 5px'} : {});
+        jQuery('#embed_preview').addClass('object_preview float-break').css( eZOEPopupUtils.ie56 ? {'margin': '0 5px 5px 5px'} : {});
         selectors[1].el.value = align;
         selectors.callEach('addEvent', 'change', loadEmbedPreview );
 		
         ez.$$('#embed-inline_customattributes input,#embed-inline_customattributes select, #embed_customattributes input,#embed_customattributes select').callEach('addEvent', 'change', loadEmbedPreview );
 
-        //if ( el && el.nodeName !== 'IMG' )//&& el.id.split('_')[1] == eZOEPopupUtils.embedObject.id )
-        //    ez.$('embed_preview').el.innerHTML = el.innerHTML;
-        //else
+        if ( el && el.nodeName !== 'IMG' )//&& el.id.split('_')[1] == eZOEPopupUtils.embedObject.id )
+            jQuery('#embed_preview').html( el.innerHTML );
+        else
             loadEmbedPreview();
 
         var slides = ez.$$('div.panel'), navigation = ez.$$('#tabs li.tab');
@@ -59,7 +48,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
     tagGenerator: function( tag, customTag )
     {
         if ( contentType === 'images' || compatibilityMode === 'enabled' )
-            return '<img id="__mce_tmp" src="javascript:void(0);" />';
+            return '<img id="__mce_tmp" src="JavaScript:void(0);" />';
         if ( jQuery('#embed_inline_source').attr( 'checked' ) )
            return '<span id="__mce_tmp"></span>';
         return '<div id="__mce_tmp"></div>';
@@ -80,7 +69,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
         && edBody.childNodes.length <= (jQuery.inArray( el, edBody.childNodes ) +1) )
         {
             var p = doc.createElement('p');
-            p.innerHTML = ed.isIE ? '&nbsp;' : '<br />';
+            p.innerHTML = ed.isIE ? '&nbsp;' : '<br \/>';
             edBody.appendChild( p );
         }
     },
@@ -100,6 +89,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
         }
         args['title']   = eZOEPopupUtils.safeHtml( eZOEPopupUtils.embedObject['name'] );
         ed.dom.setAttribs( el, args );
+        return el;
     }
 }));
 
@@ -123,7 +113,7 @@ function inlineSelectorChange( e, el )
     if ( editorEl )
     {
         var viewValue = editorEl.getAttribute('view');
-        var classValue = jQuery.trim( editorEl.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable)/g, '') );
+        var classValue = jQuery.trim( editorEl.className.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|ezoeItem\w+|mceVisualAid)/g, '') );
     }
 
     if ( viewValue && viewListData[ tag ].join !== undefined && (' ' + viewListData[ tag ].join(' ') + ' ').indexOf( ' ' + viewValue + ' ' ) !== -1 )
@@ -149,7 +139,6 @@ function setEmbedAlign( e, el )
 function loadEmbedPreview( )
 {
     // Dynamically loads embed preview when attributes change
-    // global objects: ez     
     var url = tinyMCEPopup.editor.settings.ez_extension_url + '/embed_view/' + eZOEPopupUtils.embedObject['contentobject_id'];
     var postData = jQuery('#embed_attributes input, #embed_attributes select').serialize();
     // stevo
@@ -164,9 +153,9 @@ function loadEmbedPreview( )
 		if ( keyVal[1] )
 			postData += keyVal[1];
 	}  
-    eZOEPopupUtils.ajax.load( url, postData, function(r)
+    jQuery.post( url, postData, function( data )
     {
-        jQuery('#embed_preview').html( r.responseText );
+        jQuery('#embed_preview').html( data );
     });
 }
 
@@ -219,8 +208,8 @@ function loadEmbedPreview( )
                                            'size', $default_size )
         }
 
-        {include uri="design:ezoe/customattributes.tpl" tag_name="embed" hide=$tag_name|ne('embed') custom_attributes=$custom_attributes.embed embedded_class=$embed_object.class_identifier}
-        {include uri="design:ezoe/customattributes.tpl" tag_name="embed-inline" hide=$tag_name|ne('embed-inline') custom_attributes=$custom_attributes.embed-inline embedded_class=$embed_object.class_identifier}
+        {include uri="design:ezoe/customattributes.tpl" tag_name="embed" hide=$tag_name|ne('embed') custom_attributes=$custom_attributes.embed}
+        {include uri="design:ezoe/customattributes.tpl" tag_name="embed-inline" hide=$tag_name|ne('embed-inline') custom_attributes=$custom_attributes.embed-inline}
 
         <div class="block"> 
             <div class="left">
