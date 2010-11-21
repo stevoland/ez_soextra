@@ -562,11 +562,11 @@
 
 	        if ( customTag === 'underline' )
 	        {
-	            tagHtml = '<u id="__mce_tmp" type="custom" class="mceItemCustomTag ' + customTag + '">' + editorSelectedHtml + '<\/u>';
+	            tagHtml = '<u id="__mce_tmp" type="custom" class="ezoeItemCustomTag ' + customTag + '">' + editorSelectedHtml + '<\/u>';
 	        }
 	        else if ( customTag === 'sub' || customTag === 'sup' )
 	        {
-	            tagHtml = '<' + customTag + ' id="__mce_tmp" type="custom" class="mceItemCustomTag ' + customTag + '">' + editorSelectedHtml + '<\/' + customTag + '>';
+	            tagHtml = '<' + customTag + ' id="__mce_tmp" type="custom" class="ezoeItemCustomTag ' + customTag + '">' + editorSelectedHtml + '<\/' + customTag + '>';
 	        }
 	        else if ( data.isInline == 'true' || data.isInline == 'image' )
 	        {
@@ -575,14 +575,14 @@
 	                //var customImgUrl = document.getElementById( customTag + '_image_url_source' ), imageSrc = imageIcon;
 	                //if ( customImgUrl && customImgUrl.value )
 	                //    imageSrc = customImgUrl.value;
-	                tagHtml = '<img id="__mce_tmp" type="custom" src="' + imageSrc + '" class="mceItemCustomTag ' + customTag + '"" />';
+	                tagHtml = '<img id="__mce_tmp" type="custom" src="' + imageSrc + '" class="ezoeItemCustomTag ' + customTag + '"" />';
 	            }
 	            else
-	                tagHtml = '<span id="__mce_tmp" type="custom" class="mceItemCustomTag ' + customTag + '">' + editorSelectedHtml + '<\/span>';
+	                tagHtml = '<span id="__mce_tmp" type="custom" class="ezoeItemCustomTag ' + customTag + '">' + editorSelectedHtml + '<\/span>';
 	        }
 	        else
 	        {
-	            tagHtml = '<div id="__mce_tmp" type="custom" class="' + customTag + ' mceItemCustomTag"><p>' + editorSelectedHtml + '<\/p><\/div>';
+	            tagHtml = '<div id="__mce_tmp" type="custom" class="' + customTag + ' ezoeItemCustomTag"><p>' + editorSelectedHtml + '<\/p><\/div>';
 	        }
         	
         	var newNode = t._insertHTMLCleanly( ed, tagHtml, '__mce_tmp' );
@@ -736,7 +736,7 @@
                 na = v;
             if (v = n.className)
             {
-                v = v.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|mceVisualAid|mceNonEditable|custom)/g, '');
+                v = v.replace(/(webkit-[\w\-]+|Apple-[\w\-]+|mceItem\w+|ezoeItem\w+|mceVisualAid|mceNonEditable|custom)/g, '');
 
                 if ( v = jQuery.trim( v ) )
                 {
