@@ -33,7 +33,7 @@ CustomAttributes[]=image_url
 
 [block]
 CustomAttributes[]
-CustomAttributes[]=size
+CustomAttributes[]=classification
 CustomAttributes[]=last
 CustomAttributes[]=fontsize
 CustomAttributes[]=fontclass
