@@ -76,7 +76,7 @@ CustomCreateButtons[]=soextra_create_column
 CustomTag=block
 
 Title=Insert new layout block
-OpenDialog=enabled
+OpenDialog=disabled
 IsEmpty=false
 
 [soextra_create_newline]
