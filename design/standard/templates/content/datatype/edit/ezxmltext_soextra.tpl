@@ -13,7 +13,7 @@
                 {if ezini_hasvariable($tag, 'FavouriteClasses', 'soextra.ini',,true() )}
                     {set $classes=ezini($tag, 'FavouriteClasses', 'soextra.ini',,true() ) }
                 {else}
-                    {set $classes=cond( ezini_hasvariable($tag, 'AvailableClasses', 'content.ini',,true()  ), ezini($tag, 'AvailableClasses', 'content.ini',,true() ), hash() ) }
+                    {set $classes=cond( ezini_hasvariable($tag, 'AvailableClasses', 'content.ini',,true()  ), ezini($tag, 'AvailableClasses', 'content.ini',,true() ), array() ) }
                 {/if}
                 "{$tag}": "{$classes|implode(',')}"{delimiter},
                 {/delimiter}
